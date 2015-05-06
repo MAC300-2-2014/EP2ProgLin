@@ -22,17 +22,17 @@ n = 6
 x = [0 0 0 20 20 20]
 
 
-function [ind v] = simplex(A,b,c,m,n,x)
 % Devolve -1 se o custo for ilimitado e a direção em que vai para
 % infinito é devolvida em v. 
 % Devolve 0 se houver solução ótima em ind e em v devolve o a
 % solução ótima encontrada.
-
+function [ind v] = simplex(A,b,c,m,n,x)
     B = encontraBase(A, m, n, x)
     % disp(B)
     red = custosReduzidos(c, inv(B), A, n, x)
     endfunction
-
+    
+% Encontra a matriz base da svb x dada.
 function B = encontraBase(A, m, n, x)
     j = 1
     for i = 1:n
@@ -43,6 +43,8 @@ function B = encontraBase(A, m, n, x)
         endfor;
         endfunction
 
+        
+% Calcula o vetor de custos reduzidos
 function red = custosReduzidos(c, B1, A, n, x)
     k = 1
     for i = 1:n
