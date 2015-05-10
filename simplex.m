@@ -32,6 +32,7 @@ function [ind v] = simplex(A,b,c,m,n,x)
     red = custosReduzidos(c, inv(B), A, n, x)
     endfunction
     
+
 % Encontra a matriz base da svb x dada.
 function B = encontraBase(A, m, n, x)
     j = 1
@@ -45,29 +46,71 @@ function B = encontraBase(A, m, n, x)
 
         
 % Calcula o vetor de custos reduzidos
-function red = custosReduzidos(c, B1, A, n, x)
+function red = custosReduzidos(A, b, c, m, n, x, B1)
     k = 1
+    dmin = 0
     for i = 1:n
-        if (x(i) == 0)
+        if (x(i) != 0)
             cb(k) = c(i);
             k++;
             endif
         endfor
             
     for j = 1:n
-        if (x(j) != 0)
+        if (x(j) == 0)
             red(j) = c(j) - cb*B1*A(:,j);
+            if (red(j) < min)
+                dmin = j
+                endif 
+        else 
+            red(j) = 0;
             endif
+
         endfor
 
-    if (red >= 0)
-        disp('x é solução ótima!')
-        endif
-     
+    for i = 1:n
+	if (red(dmin) == 0)
+	    disp('x é solução ótima!');
+        else 
+	    if (calculaU(B1, A(dmin), m) == -1)
+	        disp('O custo ótimo é -infinito!')
+            else
+                y = encontraSolucaoMelhor
+	        simplex(A, b, c, m, n, y)
+                endif 
+            endif
+        endfor
+ 
     endfunction
 
+function [u ind] = calculaU(B1, Aj, m)
+    for i = 1:m
+        u = B1*Aj;
+        if (u(i) <= 0)
+            ind = -1;
+            return;
+            endif
+        endfor
+    ind = 0;
+    return;
 
+    endfunction
 
-
+function y = encontraSolucaoMelhor(xb, u, m)
+    theta = xb(1)\u(1);
+    for i = 2:m
+        new = xb(i)\u(i)
+            if (new < theta)
+	        theta = new;
+                l = i;
+                endif
+        endfor
+    for i = 1:n
+        if (x(i) > 0)
+	    yb(i) = xb(i)-theta*u(i)
+            endif
+        endfor
+    endfunction
         
 [ind v] = simplex(A,b,c,m,n,x)
+clear all
