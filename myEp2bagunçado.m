@@ -1,4 +1,5 @@
 1;
+1;
 
 #=======================================================================
 # As seguintes suposicoes foram feitas para a elaboracao do EP:
@@ -19,6 +20,12 @@
 # c = [2,1,1,0, 0,0,0]  m = 4   n = 7
 #=======================================================================
 
+
+
+
+
+
+
 #=======================================================================
 # Essa funcao recebe a matriz A, os vetores b e c, o numero de restricoes
 # m, o numero de variaveis do problema n, e uma solucao viavel basica x.
@@ -28,16 +35,16 @@
 # solucao otima, armazenada em v. (Exraida da descricao do EP2).
 #=======================================================================
 function [ind, v] = simplex(A, b, c, m, n, x)
-  fim = 0;  ind = 2;   #dummy
+  ind = 2;   #dummy
   count = 0;
   v = zeros(n,1);        
 
-  while(fim == 0)
+  while(ind == 2)
     printIter(count);
     printCost(c, x);
 
     [basic, Nbasic] = indBasico(x, n);
-    [B,cb] = matrizB(A, basic, c, m, n, x);
+    [B, cb] = matrizB(A, basic, c, m, n, x);
     cost = custo(A, B, Nbasic, c, cb, m, n, x);
     j  = checkNegativo(cost, n) ;
 
@@ -101,11 +108,11 @@ endfunction
 
 
 #=======================================================================
-# Esta funcao calcula o vetor de custos reduzidos para cada direcao nao
-# basica. (cj* = cj - cbT * inv(B) * Aj)
+# Calcula o custo reduzido da variavel nao basica 
+# (cj* = cj - cbT * inv(B) * Aj)
 #=======================================================================
 function [cost] = custo(A, B, Nbasic, c, cb, m, n, x)
-  cost = zeros(n,1);
+  cost = zeros(n, 1);
   k = 1;  index = Nbasic(k);  
 
   printf("\nCustos reduzidos:\n");
@@ -123,11 +130,11 @@ endfunction
 # que v[k] < 0, k = 1...n. Caso nao encontre nenhum elemento, retorna 0.
 #=======================================================================
 function [fim] = checkNegativo(v, n)
-  fim = 0;
+  fim = 0;  
   for (k = 1 : n)
     if (v(k) < 0)
-      fim = k;
-      break;
+        fim = k;
+        return;
     endif
   end  
 endfunction
@@ -161,9 +168,89 @@ endfunction
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+#=======================================================================
+function [ind, v] = simplex2(A, b, c, m, n, x)
+  ind = 2;   #dummy
+  count = 0;
+  v = zeros(n,1);        
+
+  while(ind == 2)
+    printIter(count);
+    printCost(c, x);
+
+    [basic, Nbasic] = indBasico(x, n);
+    [B, cb] = matrizB(A, basic, c, m, n, x);
+    cost = custo(A, B, Nbasic, c, cb, m, n, x);
+
+    [ind, v, fim, x] = direction2;
+    count++;
+
+end
+  printf("\n");
+endfunction
+
+#=======================================================================
+function [ind, v, fim, x] = direction2(A, B, basic, cost, m, n, x)
+  i = 0; value = 0;
+  for (j = 1 : n)                 #checa o indice do menor elemento
+    if (v(j) < value)             #v(j) < 0, j = 1...m
+        value = v(j);
+        i = j;
+    endif
+  end  
+  
+  
+  if (i == 0)       #A solucao e otima
+    v = x;    ind = 0;
+    return;
+  endif
+  
+  else
+    u = (inv(B) * A(:, j));
+    s = checkNegativo(-u, n);
+    printf("\nEntra na base: %d\n", j);
+    printDirecao(basic, db);
+
+    if (s != 0)                                   
+      [theta, index] = thetaMax(db, basic, m, x);
+      [B] = swap(A, B, basic, index, j, m, n);     #Coluna j de A entra da base
+                                                   #Coluna index de B sai na base
+      x = newX(theta, db, basic, index, j, x, m, n);
+       ind = 2;  #dummy
+       v = x;    fim = 0;
+      
+      else                                           #Ilimitado
+       v = db;
+        ind = -1;
+        fim = 1;
+      endif
+  endif
+endfunction
+
+
+
+
+
+
+
+
+
+
 #=======================================================================
 # A funcao calcula thetaMax (o maximo que se pode andar na direcao 
-# viavel basica respeitando todas as restricoes) e o indice j tal que 
+# viavel basica respeitando todas as restricoes) do indice j tal que 
 # thetaMax = min [xB(j) / u(j)], j = 1...m, u(j) > 0
 #=======================================================================
 function [theta, j] = thetaMax(db, basic, m, x)
@@ -263,4 +350,3 @@ function printDirecao(basic, db)
       index = basic(++k);
     end
 endfunction
-
