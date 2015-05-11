@@ -10,7 +10,7 @@
 #=======================================================================
 # Teste com uma solucao viavel basica otima: (extraida do livro p.88)
 # A = [1,1,1,1 ; 2,0,3,4]  x = [1;1;0;0]   b = [2;2]
-# c = [2,0,0,0]  m = 2  n = 4
+# c = [2;0;0;0]  m = 2  n = 4
 #
 #
 # Teste p.55
@@ -87,12 +87,12 @@ endfunction
 function [B, cb] = matrizB(A, basic, c, m, n, x) 
   k = 1;  index = basic(k);
 
-  B = A(:, index:index);
+  B = A(:, index);
   cb = c(index);
 
   index = basic(++k);
   while(index != 0)
-    B = horzcat(B, A(:, index:index));
+    B = horzcat(B, A(:, index));
     cb = vertcat(cb, c(index));
     index = basic(++k);
   end
@@ -110,7 +110,7 @@ function [cost] = custo(A, B, Nbasic, c, cb, m, n, x)
 
   printf("\nCustos reduzidos:\n");
   while (index != 0)
-    cost(index) =  c(index) - (rot90(cb) * inv(B) * A(:, index:index));
+    cost(index) =  c(index) - (rot90(cb) * inv(B) * A(:, index));
     printf("%d: %f\n", index, cost(index));
     index = Nbasic(++k);
   end  
@@ -135,7 +135,7 @@ endfunction
 
 
 #=======================================================================
-# Esta funcao determina se a direcao viavel basica que diminui o valor da 
+# Esta funcao determina se a direcao viavel basica diminui o valor da 
 # funcao de custo ou se leva a funcao de custo ao -Inf
 #=======================================================================
 function [ind, v, fim, x] = direction(A, B, basic, j, m, n, x)
@@ -152,7 +152,7 @@ function [ind, v, fim, x] = direction(A, B, basic, j, m, n, x)
     ind = 2;  #dummy
     v = x;    fim = 0;
       
-  else                                           #infinitas solucoes 
+  else                                           #Ilimitado
     v = db;
     ind = -1;
     fim = 1;
@@ -213,7 +213,7 @@ function [B] = swap(A, B, basic, sai, entra, m, n)
 
   while (index != 0)
     if (index == sai)
-      B(:, k) = A(:, entra:entra);        
+      B(:, k) = A(:, entra);        
       break;
     endif
 
