@@ -1,5 +1,4 @@
 1;
-1;
 
 #=======================================================================
 # As seguintes suposicoes foram feitas para a elaboracao do EP:
@@ -114,10 +113,15 @@ endfunction
 function [cost] = custo(A, B, Nbasic, c, cb, m, n, x)
   cost = zeros(n, 1);
   k = 1;  index = Nbasic(k);  
+  
+  [L, U] = lu(B);
+
 
   printf("\nCustos reduzidos:\n");
   while (index != 0)
-    cost(index) =  c(index) - (rot90(cb) * inv(B) * A(:, index));
+    y = cb \ U';
+    p = y' \ L';
+    cost =  c(index) - p * A(:, index);
     printf("%d: %f\n", index, cost(index));
     index = Nbasic(++k);
   end  
@@ -215,7 +219,6 @@ function [ind, v, fim, x] = direction2(A, B, basic, cost, m, n, x)
   if (i == 0)       #A solucao e otima
     v = x;    ind = 0;
     return;
-  endif
   
   else
     u = (inv(B) * A(:, j));
