@@ -13,13 +13,15 @@
 % base substituindo A_(B(l)) por A_j. Se y é a nova svb, os valores
 % das novas variáveis básicas são y_j = theta*, y_B(i) - theta*u_i, i!=l. 
 
+1;
+
 % Testes
-A=[1 2 2 1 0 0 ; 2 1 2 0 1 0; 2 2 1 0 0 1]
-b = [20; 20; 20]
-c = [-10 -12 -12 0 0 0]
-m = 3
-n = 6
-x = [0 0 0 20 20 20]
+A=[1 2 2 1 0 0 ; 2 1 2 0 1 0; 2 2 1 0 0 1];
+b = [20; 20; 20];
+c = [-10 -12 -12 0 0 0];
+m = 3;
+n = 6;
+x = [0 0 0 20 20 20];
 
 
 % Devolve -1 se o custo for ilimitado e a direção em que vai para
@@ -29,7 +31,7 @@ x = [0 0 0 20 20 20]
 function [ind v] = simplex(A,b,c,m,n,x)
     B = encontraBase(A, m, n, x)
     % disp(B)
-    red = custosReduzidos(c, inv(B), A, n, x)
+    red = custosReduzidos(A, b, c, m, n, x, inv(B))
     endfunction
     
 
@@ -59,7 +61,7 @@ function red = custosReduzidos(A, b, c, m, n, x, B1)
     for j = 1:n
         if (x(j) == 0)
             red(j) = c(j) - cb*B1*A(:,j);
-            if (red(j) < min)
+            if (red(j) < red(dmin))
                 dmin = j
                 endif 
         else 
