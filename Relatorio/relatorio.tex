@@ -1,0 +1,486 @@
+
+% ------------------------------------------------------------------------
+% ------------------------------------------------------------------------
+% abnTeX2: Modelo de Relatório Técnico/Acadêmico em conformidade com 
+% ABNT NBR 10719:2011 Informação e documentação - Relatório técnico e/ou
+% científico - Apresentação
+% ------------------------------------------------------------------------ 
+% ------------------------------------------------------------------------
+
+\documentclass[
+	% -- opções da classe memoir --
+	12pt,				% tamanho da fonte
+	openright,			% capítulos começam em pág ímpar (insere página vazia caso preciso)
+	oneside,			% para impressão em verso e anverso. Oposto a oneside
+	a4paper,			% tamanho do papel. 
+	% -- opções da classe abntex2 --
+	%chapter=TITLE,		% títulos de capítulos convertidos em letras maiúsculas
+	%section=TITLE,		% títulos de seções convertidos em letras maiúsculas
+	%subsection=TITLE,	% títulos de subseções convertidos em letras maiúsculas
+	%subsubsection=TITLE,% títulos de subsubseções convertidos em letras maiúsculas
+	% -- opções do pacote babel --
+	english,			% idioma adicional para hifenização
+	french,				% idioma adicional para hifenização
+	spanish,			% idioma adicional para hifenização
+	brazil,				% o último idioma é o principal do documento
+	]{abntex2}
+
+
+% ---
+% PACOTES
+% ---
+
+% ---
+% Pacotes fundamentais 
+% ---
+\usepackage{lmodern}			% Usa a fonte Latin Modern
+\usepackage[T1]{fontenc}		% Selecao de codigos de fonte.
+\usepackage[utf8]{inputenc}		% Codificacao do documento (conversão automática dos acentos)
+\usepackage{indentfirst}		% Indenta o primeiro parágrafo de cada seção.
+\usepackage{color}				% Controle das cores
+\usepackage{graphicx}			% Inclusão de gráficos
+\usepackage{microtype} 			% para melhorias de justificação
+\usepackage{amssymb}
+\usepackage[boxruled, linesnumbered, portuguese]{algorithm2e}
+\usepackage{alltt}
+% ---
+
+% ---
+% Pacotes adicionais, usados no anexo do modelo de folha de identificação
+% ---
+\usepackage{multicol}
+\usepackage{multirow}
+% ---
+	
+% ---
+% Pacotes adicionais, usados apenas no âmbito do Modelo Canônico do abnteX2
+% ---
+\usepackage{lipsum}				% para geração de dummy text
+% ---
+
+% ---
+% Pacotes de citações
+% ---
+\usepackage[brazilian,hyperpageref]{backref}	 % Paginas com as citações na bibl
+\usepackage[alf]{abntex2cite}	% Citações padrão ABNT
+
+% --- 
+% CONFIGURAÇÕES DE PACOTES
+% --- 
+
+% ---
+% Configurações do pacote backref
+% Usado sem a opção hyperpageref de backref
+\renewcommand{\backrefpagesname}{Citado na(s) página(s):~}
+% Texto padrão antes do número das páginas
+\renewcommand{\backref}{}
+% Define os textos da citação
+\renewcommand*{\backrefalt}[4]{
+	\ifcase #1 %
+		Nenhuma citação no texto.%
+	\or
+		Citado na página #2.%
+	\else
+		Citado #1 vezes nas páginas #2.%
+	\fi}%
+% ---
+
+% ---
+% Informações de dados para CAPA e FOLHA DE ROSTO
+% ---
+\titulo{Método Simplex \\ Fase 2}
+\autor{Florence Alyssa Sakuma Shibata \and Shayenne da Luz Moura}
+\local{São Paulo}
+\data{2015}
+\instituicao{%
+  Universidade de São Paulo -- USP
+  \par
+  Instituto de Matemática e Estatística
+  \par
+  Bacharelado em Ciência da Computação}
+\tipotrabalho{Relatório técnico}
+% O preambulo deve conter o tipo do trabalho, o objetivo, 
+% o nome da instituição e a área de concentração 
+\preambulo{Relatório dos resultados dos testes do segundo trabalho.}
+% ---
+
+% ---
+% Configurações de aparência do PDF final
+
+% alterando o aspecto da cor azul
+\definecolor{blue}{RGB}{41,5,195}
+
+% informações do PDF
+\makeatletter
+\hypersetup{
+     	%pagebackref=true,
+		pdftitle={\@title}, 
+		pdfauthor={\@author},
+    	pdfsubject={\imprimirpreambulo},
+	    pdfcreator={LaTeX with abnTeX2},
+		pdfkeywords={abnt}{latex}{abntex}{abntex2}{relatório técnico}, 
+		colorlinks=true,       		% false: boxed links; true: colored links
+    	linkcolor=blue,          	% color of internal links
+    	citecolor=blue,        		% color of links to bibliography
+    	filecolor=magenta,      		% color of file links
+		urlcolor=blue,
+		bookmarksdepth=4
+}
+\makeatother
+% --- 
+
+% --- 
+% Espaçamentos entre linhas e parágrafos 
+% --- 
+
+% O tamanho do parágrafo é dado por:
+\setlength{\parindent}{1.3cm}
+
+% Controle do espaçamento entre um parágrafo e outro:
+\setlength{\parskip}{0.2cm}  % tente também \onelineskip
+
+% ---
+%% compila o indice
+%% ---
+\makeindex
+% ---
+
+% ----
+% Início do documento
+% ----
+\begin{document}
+
+% Retira espaço extra obsoleto entre as frases.
+\frenchspacing 
+
+% ----------------------------------------------------------
+% ELEMENTOS PRÉ-TEXTUAIS
+% ----------------------------------------------------------
+\pretextual
+
+% ---
+% Capa
+% ---
+\imprimircapa
+% ---
+
+% ---
+% Folha de rosto
+% (o * indica que haverá a ficha bibliográfica)
+% ---
+%\imprimirfolhaderosto*
+% ---
+
+
+% ---
+% RESUMO
+% ---
+
+% resumo na língua vernácula (obrigatório)
+\setlength{\absparsep}{18pt} % ajusta o espaçamento dos parágrafos do resumo
+\begin{resumo}
+Este relatório trata do desenvolvimento do algoritmo simplex, com implementação revisada, que encontra uma solução ótima de problemas que possuam pelo menos uma solução viável básica e nenhuma delas seja degenerada, recebendo em sua inicialização uma solução viável básica. Por fim, todos os resultados foram condizentes com o esperado.
+
+ \noindent
+ \textbf{Palavras-chaves}: solução ótima. simplex revisado. problema programação linear.
+\end{resumo}
+% ---
+
+%% ---
+%% inserir lista de ilustrações
+%% ---
+%\pdfbookmark[0]{\listfigurename}{lof}
+%\listoffigures*
+%\cleardoublepage
+%% ---
+%
+%% ---
+%% inserir lista de tabelas
+%% ---
+%\pdfbookmark[0]{\listtablename}{lot}
+%\listoftables*
+%\cleardoublepage
+%% ---
+%
+%% ---
+%% inserir lista de abreviaturas e siglas
+%% ---
+%\begin{siglas}
+%  \item[ABNT] Associação Brasileira de Normas Técnicas
+%  \item[abnTeX] ABsurdas Normas para TeX
+%\end{siglas}
+%% ---
+%
+%% ---
+%% inserir lista de símbolos
+%% ---
+%\begin{simbolos}
+%  \item[$ \Gamma $] Letra grega Gama
+%  \item[$ \Lambda $] Lambda
+%  \item[$ \zeta $] Letra grega minúscula zeta
+%  \item[$ \in $] Pertence
+%\end{simbolos}
+%% ---
+%
+%% ---
+% inserir o sumario
+% ---
+\pdfbookmark[0]{\contentsname}{toc}
+\tableofcontents*
+\cleardoublepage
+%% ---
+%
+%
+%% ----------------------------------------------------------
+%% ELEMENTOS TEXTUAIS
+%% ----------------------------------------------------------
+%\textual
+
+% ----------------------------------------------------------
+% Introdução
+% ----------------------------------------------------------
+\chapter*[Introdução]{Introdução}
+\addcontentsline{toc}{chapter}{Introdução}
+
+Em investigações científicas é comum buscar relações entre dados pontuais. Normalmente tem-se 
+muitos pontos coletados em experimento e há sempre uma razão teórica para acreditar 
+que esses pontos são aproximados por uma função.
+
+Como é praticamente impossível que uma função atravesse exatamente todos os pontos de dados
+é interessante encontrar uma função que tenha a uma distância aceitável, ou seja, que
+possua o menor desvio médio possível.
+
+
+
+Encontrar essa função é, na realidade, encontrar a solução de um sistema linear sobredeterminado,
+isto é, um sistema com mais equações que incógnitas, $Ax = b$, onde 
+$A \in  \mathbb{R}^{n \times m}, n \ge m \ e \ b \in \mathbb{R}^n$. Sendo $A$ a matriz que define o sistema,
+$n$ o número de equações, $m$ o número de incógnitas e $b$ os dados do problema. 
+
+Para analisar quão boa é essa aproximação utilizou-se o método dos quadrados mínimos. Para tal, deve-se encontrar a função que minimiza as distâncias entre a solução calculada e os valores observados. 
+
+Neste caso, o problema consiste em encontrar $x \in \mathbb{R}^n$ para o qual $\|r\|_2$ é minimizada, onde $r =  b-Ax$ é o vetor de 
+resíduos. 
+
+Para resolver esse problema, utilizou-se o conceito de matriz ortogonal, que é uma matriz quadrada cuja
+inversa coincide com sua transposta, por esta possuir número de condição igual a 1, isto é, é bem condicionada.
+Matrizes ortogonais nos permitem realizar operações com o sistema $Ax=b$ sem perder a precisão de sua solução.
+
+\section*{Execução}
+
+Para compilar o programa basta digitar o comando:
+
+\verb!$ make!
+Para executá-lo é necessário passar o nome do arquivo com os dados da matriz. Por exemplo:
+
+\verb!$ ./main m1.txt!
+
+Observação: A entrada da matriz possui o mesmo formato de entrada do EP1, porém na segunda linha haverá um inteiro $m$, indicando a dimensão da coluna da matriz.
+
+
+
+
+
+
+
+% ----------------------------------------------------------
+% PARTE - preparação da pesquisa
+% ----------------------------------------------------------
+%\section{Descriįão do método} 
+%%Dar enfase ao fato de que as todas as soluįões viáveis básicas são 
+%%não degeneradas e o problema possui pelo menos uma soluįão básica
+%\section{Desenvolvimento do algoritmo}
+%
+%\section{Resumo do funcionamento}
+%Dadas uma matriz A \in mxn, uma svb x \in n, b \in m, o vetor de custos c \in n.
+%Passos do algoritmo
+%\begin{itemize}
+%\item[1] Gera a matriz básica B associada a x.
+%\item[2] Calcula o vetor de custos reduzidos para toda variável não
+% básica. Se nenhuma componente é negativa, então a svb atual é
+% ótima, acabou. 
+%\item[3]Caso contrário, armazena o índice da variável cujo custo reduzido foi menor.
+%Calcule u = B^(-1)A_j. Se nenhum componente de u é positivo,
+%temos que o custo ótimo é - \infinity, acabou;
+%\item[4]Caso contrário, tomamos \theta * = min{x_(B(i))/u_i}
+%Seja l o indice onde o minimo foi encontrado. Forma uma nova
+%base substituindo A_(B(l)) por A_j. Se y é a nova svb, os valores
+%das novas variáveis básicas são y_j = \theta *, y_B(i) - theta*u_i, i!=l. 
+%\end{itemize}
+%
+%\section{Complexidade do algoritmo}
+%% Mostrar os passos e quanto custa por cada um deles
+%
+%% Utilizou-se a implementaįão de LU calculando o produto
+%% de matrizes triangulares superiores e inferiores pois
+%% o Octave utiliza a inversa da matriz para calcular x = b /A
+%
+%O algoritmo desenvolvido possui características ingęnuas em relaįão a sua 
+%complexidade. Poderia ser mais rápido caso houvesse apenas a atualizaįão do
+%LU em cada iteraįão, ao invés de seu cálculo novamente.
+%O comportamento do algoritmo seria o mesmo, uma vez que este não depende da
+%forma que se calculam os valores.
+%
+%\section{Testes}
+%% Reforįar as hipóteses utilizadas em cada caso.
+%\subsection{Soluįão ótima dada}
+%% Como todas as componentes do vetor de custos reduzidos são não negativas temos
+%% que a soluįão em que nos encontramos é ótima, pela suposiįão de que não existe
+%% svb degenerada
+%\subsection{Custo ótimo ilimitado}
+%
+%\subsection{Soluįão ótima diferente}
+%
+%\section{Resultados}
+% ----------------------------------------------------------
+% Capitulo com exemplos de comandos inseridos de arquivo externo 
+% ----------------------------------------------------------
+\chapter{Teoria do algoritmo}
+
+\section{Desenvolvimento do algoritmo}
+
+\section{Funcionamento do algoritmo}
+
+\section{Complexidade}
+
+
+
+\chapter{Testes}
+
+\include{testes}
+% ----------------------------------------------------------
+% Parte de revisãod e literatura
+% ----------------------------------------------------------
+\chapter{Resultados}
+
+% ---
+% Capitulo de revisão de literatura
+% ---
+\include{resultados}
+% ---
+% Finaliza a parte no bookmark do PDF
+% para que se inicie o bookmark na raiz
+% e adiciona espaço de parte no Sumário
+% ---
+\phantompart
+
+% ---
+% Conclusão
+% ---
+\chapter*[Conclusão]{Conclusão}
+\addcontentsline{toc}{chapter}{Conclusão}
+O algoritmo simplex implementado para resolver problemas de programação linear com 
+soluções viáveis básicas não degeneradas e com pelo menos uma ótima é correto, porém 
+não é o mais eficiente.
+
+Como descrito no detalhamento de sua complexidade, é possível modificá-lo de maneira que 
+se mantenha correto e gaste tempo em ordem $O(nm^2)$.
+
+Mantendo as hipóteses em todos os casos, obtêm-se os resultados esperados em problemas cuja 
+solução ótima é dada, quando o custo ótimo é ilimitado, ou é necessário encontrar uma 
+direção viável cujo custo seja ótimo.
+%
+%O algoritmo desenvolvido apresentou desempenho conforme o esperado
+%ao lidar com matrizes de posto completo, para as quais foram 
+%calculadas as funções aproximadas e seus resíduos, e também de
+%posto incompleto, onde apresentou solução esperada para o
+%caso testado.
+%
+%
+%Como se pode notar nos resultados, ao aumentar o grau do polinômio
+%com o qual se buscava aproximar os dados, diminuiu-se o resíduo, isto é,
+%a diferença entre os pontos e a função era menor. Com isso, obtinha-se 
+%melhor estimação do que poderiam valer os pontos não descritos no sistema.
+%Este fato também comprova a teoria de que quanto maior o grau do polinômio
+%melhor é a aproximação com o método dos mínimos quadrados.
+%
+%
+%Ao perturbar os valores de entrada, tanto dos coeficientes da matriz quanto
+%dos valores do vetor, pode-se notar que a aproximação ainda continuava com 
+%as mesmas características com o aumento do grau do polinômio aproximador.
+%
+%
+%Alcançou-se o objetivo do algoritmo ao se confirmar os resultados teóricos
+%em testes e experimentações, tanto quanto sua eficiência na resolução de
+%sistemas lineares e minimização de resíduos de funções.
+
+% ----------------------------------------------------------
+% ELEMENTOS PÓS-TEXTUAIS
+% ----------------------------------------------------------
+\postextual
+
+% ----------------------------------------------------------
+% Referências bibliográficas
+% ----------------------------------------------------------
+\bibliography{references}
+
+% ----------------------------------------------------------
+% Glossário
+% ----------------------------------------------------------
+%
+% Consulte o manual da classe abntex2 para orientações sobre o glossário.
+%
+%\glossary
+
+% ----------------------------------------------------------
+% Apêndices
+% ----------------------------------------------------------
+
+% ---
+% Inicia os apêndices
+% ---
+%\begin{apendicesenv}
+%
+%% Imprime uma página indicando o início dos apêndices
+%\partapendices
+%
+%% ----------------------------------------------------------
+%\chapter{Quisque libero justo}
+%% ----------------------------------------------------------
+%
+%\lipsum[50]
+%
+%% ----------------------------------------------------------
+%\chapter{Nullam elementum urna vel imperdiet sodales elit ipsum pharetra ligula
+%ac pretium ante justo a nulla curabitur tristique arcu eu metus}
+%% ----------------------------------------------------------
+%\lipsum[55-57]
+%
+% \end{apendicesenv}
+%% ---
+%
+%
+% ----------------------------------------------------------
+% Anexos
+% ----------------------------------------------------------
+
+% ---
+% Inicia os anexos
+% ---
+%\begin{anexosenv}
+%
+%% Imprime uma página indicando o início dos anexos
+%\partanexos
+%
+%% ---
+%\chapter{Morbi ultrices rutrum lorem.}
+%% ---
+%\lipsum[30]
+%
+%% ---
+%\chapter{Cras non urna sed feugiat cum sociis natoque penatibus et magnis dis
+%parturient montes nascetur ridiculus mus}
+%% ---
+%
+%\lipsum[31]
+%
+%% ---
+%\chapter{Fusce facilisis lacinia dui}
+%% ---
+%
+%\lipsum[32]
+%
+%\end{anexosenv}
+%%
+
+\end{document}

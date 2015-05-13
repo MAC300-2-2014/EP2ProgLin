@@ -1,0 +1,30 @@
+\changetocdepth {4}
+\select@language {brazil}
+\setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
+\setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
+\contentsline {chapter}{Introdu\IeC {\c c}\IeC {\~a}o}{3}{chapter*.2}
+\setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
+\contentsline {chapter}{\chapternumberline {1}\MakeTextUppercase {Teoria do algoritmo}}{4}{chapter.1}
+\contentsline {section}{\numberline {1.1}Desenvolvimento do algoritmo}{4}{section.1.1}
+\contentsline {section}{\numberline {1.2}Funcionamento do algoritmo}{4}{section.1.2}
+\contentsline {section}{\numberline {1.3}Complexidade}{4}{section.1.3}
+\setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
+\contentsline {chapter}{\chapternumberline {2}\MakeTextUppercase {Testes}}{5}{chapter.2}
+\contentsline {section}{\numberline {2.1}Solu\IeC {\c c}\IeC {\~a}o \IeC {\'o}tima dada}{6}{section.2.1}
+\contentsline {section}{\numberline {2.2}Custo \IeC {\'o}timo ilimitado}{6}{section.2.2}
+\contentsline {section}{\numberline {2.3}Solu\IeC {\c c}\IeC {\~a}o \IeC {\'o}tima diferente}{6}{section.2.3}
+\setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
+\contentsline {chapter}{\chapternumberline {3}\MakeTextUppercase {Resultados}}{7}{chapter.3}
+\setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
+\contentsline {chapter}{\chapternumberline {4}\MakeTextUppercase {Resolu\IeC {\c c}\IeC {\~a}o de sistema com posto incompleto}}{8}{chapter.4}
+\setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
+\contentsline {chapter}{\chapternumberline {5}\MakeTextUppercase {Resolu\IeC {\c c}\IeC {\~a}o de sistema com posto completo e problema dos quadrados m\IeC {\'\i }nimos}}{9}{chapter.5}
+\contentsline {section}{\numberline {5.1}Dados iniciais}{9}{section.5.1}
+\contentsline {section}{\numberline {5.2}Solu\IeC {\c c}\IeC {\~a}o 2\IeC {\textordmasculine } grau}{10}{section.5.2}
+\contentsline {section}{\numberline {5.3}Solu\IeC {\c c}\IeC {\~a}o 3\IeC {\textordmasculine } grau}{11}{section.5.3}
+\contentsline {section}{\numberline {5.4}Solu\IeC {\c c}\IeC {\~a}o 4\IeC {\textordmasculine } grau}{12}{section.5.4}
+\contentsline {section}{\numberline {5.5}Solu\IeC {\c c}\IeC {\~a}o 5\IeC {\textordmasculine } grau}{13}{section.5.5}
+\vspace {\cftbeforechapterskip }
+\setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
+\contentsline {chapter}{Conclus\IeC {\~a}o}{14}{chapter*.5}
+\vspace {\cftbeforechapterskip }
