@@ -177,13 +177,13 @@
 % ---
 
 % resumo na língua vernácula (obrigatório)
-\setlength{\absparsep}{18pt} % ajusta o espaçamento dos parágrafos do resumo
-\begin{resumo}
-Este relatório trata do desenvolvimento do algoritmo simplex, com implementação revisada, que encontra uma solução ótima de problemas que possuam pelo menos uma solução viável básica e nenhuma delas seja degenerada, recebendo em sua inicialização uma solução viável básica. Por fim, todos os resultados foram condizentes com o esperado.
-
- \noindent
- \textbf{Palavras-chaves}: solução ótima. simplex revisado. problema programação linear.
-\end{resumo}
+%\setlength{\absparsep}{18pt} % ajusta o espaçamento dos parágrafos do resumo
+%\begin{resumo}
+%Este relatório trata do desenvolvimento do algoritmo simplex, com implementação revisada, que encontra uma solução ótima de problemas que possuam pelo menos uma solução viável básica e nenhuma delas seja degenerada, recebendo em sua inicialização uma solução viável básica. Por fim, todos os resultados foram condizentes com o esperado.
+%
+% \noindent
+% \textbf{Palavras-chaves}: solução ótima. simplex revisado. problema programação linear.
+%\end{resumo}
 % ---
 
 %% ---
@@ -241,41 +241,6 @@ Este relatório trata do desenvolvimento do algoritmo simplex, com implementaç�
 % ----------------------------------------------------------
 \chapter*[Introdução]{Introdução}
 \addcontentsline{toc}{chapter}{Introdução}
-
-Em investigações científicas é comum buscar relações entre dados pontuais. Normalmente tem-se 
-muitos pontos coletados em experimento e há sempre uma razão teórica para acreditar 
-que esses pontos são aproximados por uma função.
-
-Como é praticamente impossível que uma função atravesse exatamente todos os pontos de dados
-é interessante encontrar uma função que tenha a uma distância aceitável, ou seja, que
-possua o menor desvio médio possível.
-
-
-
-Encontrar essa função é, na realidade, encontrar a solução de um sistema linear sobredeterminado,
-isto é, um sistema com mais equações que incógnitas, $Ax = b$, onde 
-$A \in  \mathbb{R}^{n \times m}, n \ge m \ e \ b \in \mathbb{R}^n$. Sendo $A$ a matriz que define o sistema,
-$n$ o número de equações, $m$ o número de incógnitas e $b$ os dados do problema. 
-
-Para analisar quão boa é essa aproximação utilizou-se o método dos quadrados mínimos. Para tal, deve-se encontrar a função que minimiza as distâncias entre a solução calculada e os valores observados. 
-
-Neste caso, o problema consiste em encontrar $x \in \mathbb{R}^n$ para o qual $\|r\|_2$ é minimizada, onde $r =  b-Ax$ é o vetor de 
-resíduos. 
-
-Para resolver esse problema, utilizou-se o conceito de matriz ortogonal, que é uma matriz quadrada cuja
-inversa coincide com sua transposta, por esta possuir número de condição igual a 1, isto é, é bem condicionada.
-Matrizes ortogonais nos permitem realizar operações com o sistema $Ax=b$ sem perder a precisão de sua solução.
-
-\section*{Execução}
-
-Para compilar o programa basta digitar o comando:
-
-\verb!$ make!
-Para executá-lo é necessário passar o nome do arquivo com os dados da matriz. Por exemplo:
-
-\verb!$ ./main m1.txt!
-
-Observação: A entrada da matriz possui o mesmo formato de entrada do EP1, porém na segunda linha haverá um inteiro $m$, indicando a dimensão da coluna da matriz.
 
 
 
@@ -335,28 +300,52 @@ Observação: A entrada da matriz possui o mesmo formato de entrada do EP1, por�
 % ----------------------------------------------------------
 % Capitulo com exemplos de comandos inseridos de arquivo externo 
 % ----------------------------------------------------------
-\chapter{Teoria do algoritmo}
+\chapter{Descrição do algoritmo}
+O método simplex utilizado como base para o desenvolvimento do algoritmo está descrito em
+  \citeonline[pág. 90-91]{bertsimas1997introduction}. 
+  
+  Dadas uma matriz $A \in \Re ^{m \times n}$, uma solução viável básica $x \in \Re ^n$, $b \in \Re ^m$, o vetor de custos $c \in\Re ^n$, o algoritmo realiza os seguintes passos:
+  
+\begin{itemize}
+\item[1] Gera a matriz básica $B$ associada a $x$.
+\item[2] Calcula o vetor de custos reduzidos para toda variável não
+ básica. Se nenhuma componente é negativa, então a solução viável básica atual é
+ ótima, acabou. 
+\item[3]Caso contrário, armazena o índice da variável cujo custo reduzido foi menor.
+Calcula $u = B^{-1}A_j$. Se nenhum componente de $u$ é positivo,
+então o custo ótimo é $- \infty$, acabou;
+\item[4]Caso contrário, toma $\theta ^* = min_{(i = 1,\ldots,m|u_i > 0)} \{\frac{x_{B(i)}}{u_i}\} $.
+Seja $l$ o índice onde o mínimo foi encontrado. Forma uma nova
+base substituindo $A_{B(l)}$ por $A_j$. Sendo $y$ é a nova solução viável básica, os valores
+das novas variáveis básicas são $y_j = \theta ^*$, $y_{B(i)} - \theta ^* u_i$, $i\neq l$. Volta ao passo 1.
+\end{itemize}
 
-\section{Desenvolvimento do algoritmo}
+\chapter{Funcionamento do algoritmo}
 
-\section{Funcionamento do algoritmo}
+A seguir está a descrição do funcionamento do algoritmo quando o problema de
+programação linear dado possue pelo menos uma solução ótima ou quando o custo 
+ótimo é ilimitado.
 
-\section{Complexidade}
+\section{Solução ótima}
 
 
 
-\chapter{Testes}
-
-\include{testes}
+\section{Custo ótimo ilimitado}
+%
+%\chapter{Testes}
+%
+%\include{testes}
 % ----------------------------------------------------------
 % Parte de revisãod e literatura
 % ----------------------------------------------------------
 \chapter{Resultados}
 
+
+
 % ---
 % Capitulo de revisão de literatura
-% ---
-\include{resultados}
+%% ---
+%\include{resultados}
 % ---
 % Finaliza a parte no bookmark do PDF
 % para que se inicie o bookmark na raiz
@@ -370,11 +359,7 @@ Observação: A entrada da matriz possui o mesmo formato de entrada do EP1, por�
 \chapter*[Conclusão]{Conclusão}
 \addcontentsline{toc}{chapter}{Conclusão}
 O algoritmo simplex implementado para resolver problemas de programação linear com 
-soluções viáveis básicas não degeneradas e com pelo menos uma ótima é correto, porém 
-não é o mais eficiente.
-
-Como descrito no detalhamento de sua complexidade, é possível modificá-lo de maneira que 
-se mantenha correto e gaste tempo em ordem $O(nm^2)$.
+soluções viáveis básicas não degeneradas e com pelo menos uma ótima é correto.
 
 Mantendo as hipóteses em todos os casos, obtêm-se os resultados esperados em problemas cuja 
 solução ótima é dada, quando o custo ótimo é ilimitado, ou é necessário encontrar uma 
