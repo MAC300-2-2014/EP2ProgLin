@@ -9,8 +9,8 @@
 
 #=======================================================================
 # Teste com uma solucao viavel basica otima: (extraida do livro p.88)
-  A = [1,1,1,1 ; 2,0,3,4],  x = [1;1;0;0] ,  b = [2;2],
-  c = [2,0,0,0] , m = 2 , n = 4
+#  A = [1,1,1,1 ; 2,0,3,4],  x = [1;1;0;0] ,  b = [2;2],
+#  c = [2,0,0,0] , m = 2 , n = 4
 #
 #
 # Teste p.55
@@ -287,4 +287,4 @@ function printDirecao(basic, u)
     end
 endfunction
 
-[ind, v] = simplex(A, b, c, m, n, x)
+
