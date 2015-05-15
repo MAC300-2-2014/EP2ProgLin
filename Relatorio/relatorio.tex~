@@ -63,7 +63,7 @@
 % ---
 \usepackage[brazilian,hyperpageref]{backref}	 % Paginas com as citações na bibl
 \usepackage[alf]{abntex2cite}	% Citações padrão ABNT
-\usepackage{listings}
+
 % --- 
 % CONFIGURAÇÕES DE PACOTES
 % --- 
@@ -242,7 +242,7 @@
 \chapter*[Introdução]{Introdução}
 \addcontentsline{toc}{chapter}{Introdução}
 
-O método simplex é baseado em encontrar uma solução viável ótima para um problema de programação linear e realiza esta busca movendo-se de uma solução viável básica para outra, percorrendo os lados do poliedro que define a região viável, sempre numa direção onde o custo se reduz. Enfim, uma solução viável básica é alcançada quando nenhuma das direções viáveis reduzem o custo; então a solução viável básica é ótima e o algoritmo termina.
+
 
 
 
@@ -320,8 +320,6 @@ base substituindo $A_{B(l)}$ por $A_j$. Sendo $y$ é a nova solução viável b�
 das novas variáveis básicas são $y_j = \theta ^*$, $y_{B(i)} - \theta ^* u_i$, $i\neq l$. Volta ao passo 1.
 \end{itemize}
 
-É necessário que o problema possua pelo menos uma solução viável básica e que todas as soluções viáveis básicas sejam não degeneradas.
-
 \chapter{Funcionamento do algoritmo}
 
 A seguir está a descrição do funcionamento do algoritmo quando o problema de
@@ -330,15 +328,10 @@ programação linear dado possue pelo menos uma solução ótima ou quando o cus
 
 \section{Solução ótima}
 
-Existem duas possibilidades para este caso: 
-\begin{itemize}
-\item A solução ótima é dada;
-\item A solução ótima é encontrada ao percorrer as direções viáveis que reduzem o custo.
-\end{itemize}
 
-  
+
 \section{Custo ótimo ilimitado}
- 
+%
 %\chapter{Testes}
 %
 %\include{testes}
@@ -347,9 +340,7 @@ Existem duas possibilidades para este caso:
 % ----------------------------------------------------------
 \chapter{Resultados}
 
-O desenvolvimento do algoritmo em linguagem Octave baseado no método simplex descrito em \citeonline{bertsimas1997introduction}.
 
-Além da análise do funcionamento do algoritmo, conforme descrito na seção anterior, que demonstrou a corretude do mesmo, desde que fossem garantidas as hipóteses sobre os parâmetros de inicialização.
 
 % ---
 % Capitulo de revisão de literatura
@@ -371,8 +362,8 @@ O algoritmo simplex implementado para resolver problemas de programação linear
 soluções viáveis básicas não degeneradas e com pelo menos uma ótima é correto.
 
 Mantendo as hipóteses em todos os casos, obtêm-se os resultados esperados em problemas cuja 
-solução ótima é dada, quando o custo ótimo é ilimitado, ou seja necessário encontrar uma 
-direção viável cujo custo seja menor, encontrando a solução ótima.
+solução ótima é dada, quando o custo ótimo é ilimitado, ou é necessário encontrar uma 
+direção viável cujo custo seja ótimo.
 %
 %O algoritmo desenvolvido apresentou desempenho conforme o esperado
 %ao lidar com matrizes de posto completo, para as quais foram 
@@ -452,20 +443,12 @@ direção viável cujo custo seja menor, encontrando a solução ótima.
 % Inicia os anexos
 % ---
 %\begin{anexosenv}
-%%
+%
 %% Imprime uma página indicando o início dos anexos
 %\partanexos
 %
-%%% ---
-%\chapter{Código do algoritmo}
-%
-%\lstset{language=Octave,
-%             basicstyle=\footnotesize,
-%             numbers=left}
-%\begin{lstlisting}
-%SQUARE(REFERENCE,LENGTH,POT_INT,ATTRIB)
-%\end{lstlisting}
-
+%% ---
+%\chapter{Morbi ultrices rutrum lorem.}
 %% ---
 %\lipsum[30]
 %
@@ -481,8 +464,8 @@ direção viável cujo custo seja menor, encontrando a solução ótima.
 %% ---
 %
 %\lipsum[32]
-%%
+%
 %\end{anexosenv}
-%%%
+%%
 
 \end{document}
