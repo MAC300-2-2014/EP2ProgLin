@@ -255,7 +255,7 @@ function [fim] = checkNegativo(v, n)
   for (k = 1 : n)
     if (v(k) < 0)
       fim = k;
-      break;
+      return;
     endif
   end  
 endfunction
