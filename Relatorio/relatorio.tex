@@ -336,6 +336,169 @@ Existem duas possibilidades para este caso:
 \item A solução ótima é encontrada ao percorrer as direções viáveis que reduzem o custo.
 \end{itemize}
 
+
+Ao aplicar o algoritmo com os dados descritos a seguir, pode-se verificar seu funcionamento.
+\begin{verbatim}
+> A = [1 0 1 0 0; 0 1 0 1 0; 3 2 0 0 1];
+> x = [0;0;4;6;18];
+> b = [4;16;18];
+> m = 3;
+> n = 5;
+> c = [3;5;0;0;0];
+
+> [ind, v] = simplex(A, b, c, m, n, x);
+#====================================
+           Iteracao: 0
+#====================================
+
+Variaveis basicas:
+3:  4.000000
+4:  6.000000
+5:  18.000000
+
+Valor funcao objetivo: 0.000000
+\end{verbatim}
+
+O algoritmo calcula quais são as váriáveis básicas a partir da solução x dada e o custo associado a essa solução c$^T$x.
+
+\begin{verbatim}
+Custos reduzidos:
+1: 3.000000
+2: 5.000000
+\end{verbatim}
+
+Como o vetor de custos reduzidos das variáveis não básicas é positivo não existe direção viável que reduza o custo. Logo, o custo ótimo é alcançado em x. Assim, x é solução ótima.
+
+\begin{verbatim}
+Solucao otima com custo 0.000000:
+1  0.000000
+2  0.000000
+3  4.000000
+4  6.000000
+5  18.000000
+\end{verbatim}
+O algoritmo então devolve o valor da solução ótima que é igual a solução viável básica x dada.
+
+
+Ao realizar outro teste, mudando apenas a função de custo, obtemos a resposta a seguir. 
+\begin{verbatim}
+> c = [-3;-5;0;0;0];
+
+> [ind, v] = simplex(A, b, c, m, n, x);
+#====================================
+           Iteracao: 0
+#====================================
+Variaveis basicas:
+3:  4.000000
+4:  6.000000
+5:  18.000000
+
+Valor funcao objetivo: 0.000000
+
+Custos reduzidos:
+1: -3.000000
+2: -5.000000
+\end{verbatim}
+
+O algoritmo calcula quais são as váriáveis básicas da solução viável básica x, o custo associado a ela e os custos reduzidos das variáveis não básicas. Quando encontra um valor negativo sabe-se que existe uma solução viável básica, diferente de x, cujo custo associado é menor.
+
+\begin{verbatim}
+Entra na base: 1
+
+Direcao
+3: 1.000000
+4: 0.000000
+5: 3.000000
+
+Theta*: 4.000000
+
+Sai da base: 3
+\end{verbatim}
+
+É calculada a direção viável que reduz o custo, além do $\theta$ máximo que se pode andar para estar sobre uma nova solução viável básica. A primeira variável encontrada que possuir custo reduzido negativo entra na base e uma das variáveis básicas torna-se não básica. Neste caso, aquela que torna o $\theta$ máximo.
+Uma nova iteração se inicia.
+
+\begin{verbatim}
+#====================================
+           Iteracao: 1
+#====================================
+Variaveis basicas:
+1:  4.000000
+4:  6.000000
+5:  6.000000
+
+Valor funcao objetivo: -12.000000
+
+Custos reduzidos:
+3: 3.000000
+2: -5.000000
+
+Entra na base: 2
+
+Direcao
+1: 0.000000
+4: 1.000000
+5: 2.000000
+
+Theta*: 3.000000
+
+Sai da base: 5
+\end{verbatim}
+
+Nesta iteração novamente se calcula as variáveis básicas, agora da solução viável básica encontrada na iteração anterior, e seu custo associado. Ao calcular o vetor de custos reduzidos encontra uma componente negativa. Outra vez, sabe-se que a solução em que está não é ótima. Calcula a direção viável que reduz o custo associado, colocando na base a variável que possui custo reduzido negativo, e saindo a que torna o $\theta$ máximo. Outra iteração se inicia.
+
+\begin{verbatim}
+#====================================
+           Iteracao: 2
+#====================================
+Variaveis basicas:
+1:  4.000000
+4:  3.000000
+2:  3.000000
+
+Valor funcao objetivo: -27.000000
+Custos reduzidos:
+3: -4.500000
+5: 2.500000
+
+Entra na base: 3
+
+Direcao
+1: 1.000000
+4: 1.500000
+2: -1.500000
+
+Theta*: 2.000000
+
+Sai da base: 4
+\end{verbatim}
+
+Idêntica a iteração anterior. Novamente sabe-se que há uma solução melhor que a dada no início da iteração pois o vetor de custos reduzidos não é positivo. Segue os mesmos passos já descritos e encontra-se uma nova solução viável básica com custo associado menor. Mais uma iteração se inicia.
+
+\begin{verbatim}
+#====================================
+           Iteracao: 3
+#====================================
+Variaveis basicas:
+1:  2.000000
+3:  2.000000
+2:  6.000000
+
+Valor funcao objetivo: -36.000000
+
+Custos reduzidos:
+4: 3.000000
+5: 1.000000
+
+Solucao otima com custo -36.000000:
+1  2.000000
+2  6.000000
+3  2.000000
+4  0.000000
+5  0.000000
+\end{verbatim}
+Esta possui o vetor de custos reduzidos positivo. Logo não existe direção viável que reduza o custo. O algoritmo devolve a solução viável básica em que está como solução ótima, pois esta possui menor custo associado.  
+  
   
 \section{Custo ótimo ilimitado}
  
