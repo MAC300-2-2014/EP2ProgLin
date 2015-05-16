@@ -501,6 +501,61 @@ Esta possui o vetor de custos reduzidos positivo. Logo não existe direção vi�
   
   
 \section{Custo ótimo ilimitado}
+Como exemplo do funcionamento do algoritmo para um problema de programação linear que contém solução ilimitada segue os dados de entrada.
+
+\begin{verbatim}
+> A = [1,-1,-1,0;-1/2, 1, 0, 1],
+> b = [-1;2]
+> c = [-1; -1/4;0;0]
+> m = 2
+> n = 4
+> x = [2; 3; 0; 0]
+\end{verbatim}
+
+A execução do algoritmo devolve as iterações a seguir. 
+
+\begin{verbatim}
+> [ind, v ]= simplex(A, b, c, m, n, x);
+#====================================
+           Iteracao: 0
+#====================================
+Variaveis basicas:
+1:  2.000000
+2:  3.000000
+
+Valor funcao objetivo: -2.750000
+
+Custos reduzidos:
+3: -2.250000
+4: 2.500000
+\end{verbatim}
+
+Ao andar na direção da variável básica cujo custo reduzido é menor que zero encontra-se o vetor u com elementos não positivos, isso quer dizer que a direção encontrada leva a solução ilimitada, com custo ótimo $-\infty$.
+
+\begin{verbatim}
+O valor da funcao objetivo vai para -Inf
+
+Entra na base: 3
+
+Direcao
+1: -2.000000
+2: 0.000000
+
+Theta*: Inf
+
+Sai da base: 0
+
+A direcao que leva o custo a -Inf:
+
+Direcao
+1: -2.000000
+2: 0.000000
+0: 0.000000
+0: 0.000000
+\end{verbatim}
+
+O algoritmo devolve então a direção viável que possui solução ilimitada.
+
  
 %\chapter{Testes}
 %

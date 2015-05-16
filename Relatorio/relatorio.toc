@@ -10,10 +10,10 @@
 \contentsline {section}{\numberline {2.1}Solu\IeC {\c c}\IeC {\~a}o \IeC {\'o}tima}{4}{section.2.1}
 \contentsline {section}{\numberline {2.2}Custo \IeC {\'o}timo ilimitado}{8}{section.2.2}
 \setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
-\contentsline {chapter}{\chapternumberline {3}\MakeTextUppercase {Resultados}}{9}{chapter.3}
+\contentsline {chapter}{\chapternumberline {3}\MakeTextUppercase {Resultados}}{10}{chapter.3}
 \vspace {\cftbeforechapterskip }
 \setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
-\contentsline {chapter}{Conclus\IeC {\~a}o}{10}{chapter*.3}
+\contentsline {chapter}{Conclus\IeC {\~a}o}{11}{chapter*.3}
 \vspace {\cftbeforechapterskip }
 \setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
-\contentsline {chapter}{Refer\^encias}{11}{section*.6}
+\contentsline {chapter}{Refer\^encias}{12}{section*.6}
