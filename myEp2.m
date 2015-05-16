@@ -46,7 +46,8 @@ function [ind, v] = simplex(A, b, c, m, n, x)
     if (j != 0)
       [B, InvB, basic, Nbasic, x] = newB(A, B, InvB, basic, Nbasic, v, j, x, m, n);
     endif
-    
+
+
     count++;
   end
 
@@ -191,9 +192,6 @@ endfunction
 # viavel basica respeitando todas as restricoes) e o indice j tal que 
 # thetaMax = min [xB(j) / u(j)], j = 1...m, u(j) > 0
 #=======================================================================
-
-#ATENÇAO PARA A ORDEM DOS INDICES DAS VARIAVEIS BASICAS NAS ITERACOES SEGUINTES
-
 function [theta, j] = thetaMax(u, basic, m, x)
   theta = Inf;
  
@@ -201,10 +199,10 @@ function [theta, j] = thetaMax(u, basic, m, x)
   k = 1;   index = basic(k);
    
   while (index != 0)
-    if (u(index) > 0)
-      t = (x(index) / u(index));
+    if (u(k) > 0)
+      t = (x(index) / u(k));
       
-      if (t < theta)
+      if (t < theta )
 	theta = t;
         j = index;
       endif
@@ -230,12 +228,12 @@ function [B, basic, Nbasic] = swap(A, B, basic, Nbasic, sai, entra, m, n)
 
   B(:, k) = A(:, entra);        
   basic(k) = entra;
-
   k = 1; index = Nbasic(k);
   while (index != entra)
-    index = basic(++k);
+   index = Nbasic(++k);
   end
   Nbasic(k) = sai;
+
 
 endfunction
 
@@ -297,6 +295,7 @@ endfunction
 
 
 function printDirecao(basic, u, m)
+  printf("\nDirecao\n");
   for (i = 1 : m)
     printf("%d: %f\n", basic(i), u(i));
   end
