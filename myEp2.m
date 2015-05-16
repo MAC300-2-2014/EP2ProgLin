@@ -32,24 +32,25 @@ function [ind, v] = simplex(A, b, c, m, n, x)
    count = 0;
 
   [basic, Nbasic] = indBasico(x, n);
-  [B, InvB, cb] = matrizB(A, basic, c, m, n, x);
+  [B, InvB] = matrizB(A, basic, m, n, x);
 
   while(ind == 2)
     printIter(count);
     printBasic(basic, x);
     printCost(c, x);
-
+    
+    cb = findCb(basic, c);
     cost = custo(A, InvB, Nbasic, c, cb, m, n, x);
     [ind, v, j] = direction(A, InvB, cost, m, n, x);
 
     if (j != 0)
-      [B, InvB, basic, Nbasic, x] = newB(B, InvB, basic, Nbasic, v, j, x, m, n);
+      [B, InvB, basic, Nbasic, x] = newB(A, B, InvB, basic, Nbasic, v, j, x, m, n);
     endif
     
     count++;
   end
-  
-  printf("\n");
+
+  printSolucao(x, v, basic, c, ind, m, n);
 endfunction
 
 
@@ -76,21 +77,18 @@ endfunction
 
 
 #=======================================================================
-# Esta funcao recebe uma matriz A de tamanho m x n, vetores c e x de  
+# Esta funcao recebe uma matriz A de tamanho m x n, vetor x de  
 # tamanho n e o vetor basic com indices das variaveis basicas de x.
 # Devolve uma matriz B com as colunas basicas de A associado a solucao 
-# x, a matriz inversa de B e cb, o vetor de custo dos indices basicos.
+# x e a matriz inversa de B 
 #=======================================================================
-function [B, InvB, cb] = matrizB(A, basic, c, m, n, x) 
+function [B, InvB] = matrizB(A, basic, m, n, x) 
   k = 1;  index = basic(k);
 
   B = A(:, index);
-  cb = c(index);
-
   index = basic(++k);
   while(index != 0)
     B = horzcat(B, A(:, index));
-    cb = vertcat(cb, c(index));
     index = basic(++k);
   end
  
@@ -98,11 +96,26 @@ function [B, InvB, cb] = matrizB(A, basic, c, m, n, x)
 endfunction
 
 
+#=======================================================================
+# Esta funcao determina cb, o vetor de custo dos indices basicos.
+#=======================================================================
+function [cb] = findCb(basic, c) 
+  k = 1;  index = basic(k);
+
+  cb = c(index);
+  index = basic(++k);
+  while(index != 0)
+    cb = vertcat(cb, c(index));
+    index = basic(++k);
+  end
+ 
+endfunction
+
+
 
 #=======================================================================
 # Esta funcao calcula o vetor de custos reduzidos para cada direcao nao
-# basica, onde: 
-# p' = cb' * inv(B)   e   (cj* = cj - p' * Aj)
+# basica, onde:  p' = cb' * inv(B)   e   (cj* = cj - p' * Aj)
 #=======================================================================
 function [cost] = custo(A, B, Nbasic, c, cb, m, n, x)
 
@@ -157,19 +170,19 @@ endfunction
 # x. Atualiza tambem os indices das novas variaveis basicas e nao basicas.
 #=======================================================================
 function [B, InvB, basic, Nbasic, x] = newB (A, B, InvB, basic, Nbasic, u, j, x, m, n)
-    printf("\nEntra na base: %d\n", j);
-    printDirecao(basic, u);
+  printf("\nEntra na base: %d\n", j);
+  printDirecao(basic, u, m);
 
-    [theta, index] = thetaMax(u, basic, m, x);
-    x = newX(theta, basic, u, j, x, m, n);
-    [B, basic, Nbasic] = swap(A, B, basic, Nbasic, index, j, m, n);   
+  [theta, index] = thetaMax(u, basic, m, x);
+  x = newX(theta, basic, u, j, x, m, n);
+  [B, basic, Nbasic] = swap(A, B, basic, Nbasic, index, j, m, n);   
                                                   #Coluna index de B sai na base
                                                   #Coluna j de A entra da base
 #   InvB = newInvB(invB, v);
 
+  InvB = inv(B);
+
 endfunction
-
-
 
 
 
@@ -205,7 +218,6 @@ endfunction
 
 
 #=======================================================================
-########PASSIVEL DE ERROS(?)
 # A funcao troca a coluna B[sai] pela coluna A[entra] e atualiza os
 # indices basicos e nao basicos
 #=======================================================================
@@ -255,7 +267,7 @@ function [fim] = checkNegativo(v, n)
   for (k = 1 : n)
     if (v(k) < 0)
       fim = k;
-      return;
+      break;
     endif
   end  
 endfunction
@@ -267,7 +279,6 @@ endfunction
 #=======================================================================
 function printBasic(basic, x)
   printf("Variaveis basicas:\n");
-
   k = 1; index = basic(k);
   while (index != 0)
     printf("%d:  %f\n", index, x(index));
@@ -276,6 +287,7 @@ function printBasic(basic, x)
     printf("\n");
 endfunction
 
+
 function printIter(count)
     printf("#====================================\n");
     printf("           Iteracao: %d\n", count);
@@ -283,17 +295,34 @@ function printIter(count)
 endfunction
 
 
+
+function printDirecao(basic, u, m)
+  for (i = 1 : m)
+    printf("%d: %f\n", basic(i), u(i));
+  end
+endfunction
+
+
+
+function printSolucao(x, v, basic, c, ind, m,  n)
+  if (ind == 0)
+    printf("\nSolucao otima com custo %f:\n", c' * x);
+    for (i = 1 : n)
+       printf("%d  %f\n",i ,x(i));
+    end
+
+  else
+    printf("\nA direcao que leva o custo a -Inf:\n");
+    printDirecao(basic, u, m);
+  endif
+
+endfunction
+
+
+
 function printCost(c, x)
     printf("Valor funcao objetivo: %f\n", c' * x);
 endfunction
 
 
-function printDirecao(basic, u)
-    k = 1; index = basic(k);
-    printf("\nDirecao\n");
-    while (index != 0)
-      printf("%d: %f\n", index, u(index));
-      index = basic(++k);
-    end
-endfunction
 
