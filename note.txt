@@ -1,0 +1,138 @@
+#=======================================================================
+#
+#                   EXEMPLOS CHECADOS?
+#
+#=======================================================================
+  - Os exemplos aqui abaixo postados foram retirados do livro, da apostila (que vc me passou) 
+e do pdf da unicamp
+(http://www.dca.fee.unicamp.br/~gomide/courses/IA810/transp/IA810ProgramacaoLinear_2.pdf)
+	
+  - Chequei tambem com o programa da Fernanda e deram iguais.
+
+  - Teste com solucao viavel otima
+[Livro p.88]
+ A = [1,1,1,1 ; 2,0,3,4]  
+ x = [1;1;0;0]   
+ b = [2;2]
+ c = [2;0;0;0]  m = 2  n = 4
+
+[apostila]
+ A = [1 0 1 0 0; 0 1 0 1 0; 3 2 0 0 1]
+ x = [0;0;4;6;18]
+ b = [4;16;18]
+ c = [-3;-5;0;0;0] 
+
+[unicamp]
+ A = [1 2 3 0 1 0 0 0 ;-1 2 6 0 0 1 0 0; 0 4 9 0 0 0 1 0; 0 0 3 4 0 0 0 1]
+ c = [0;0;0;0;1;1;1;1]
+ x = [0; 0; 0; 0; 3; 2; 5; 1]
+
+[unicamp?]
+ A = [1 1 3 1 0 0; 2 2 5 0 1 0; 4 1 2 0 0 1]
+ c = [-3;-1;-2;0;0;0]
+ x = [30;24;36;0;0;0]
+
+
+[teste do Yan]
+ A = [4.73, -4.73,  10.3,  -10.3, -1,  0, 0, 0, 0;
+    -0.83,  0.83,  1.05,  -1.05,  0, -1, 0, 0, 0;
+    -1.56,  1.56, -0.02,   0.02,  0,  0, 1, 0, 0;
+    -2.11,  2.11, 10.22, -10.22,  0,  0, 0, 1, 0;
+     8.32, -8.32, 12.38, -12.38,  0,  0, 0, 0, 1];
+ b = [4.88; -3.61; 1.78; 77.52; 120.26];
+ c = [1.5; -1.5; -0.25; 0.25; 0; 0; 0; 0; 0];
+ n = 9;
+ m = 5;
+ x = [3.13026; 0.00000; 0.00000; 0.96370; 0.00000; 0.00000; 6.64393; 93.97387; 106.14687];
+
+****************************************************************
+  - Teste com custo -Inf
+ [Seu teste no pdf]
+ A = [1 -1 -1 0; -1/2 1 0 1]
+ b = [-1; 2]
+ c = [-1; -1/4;0;0]
+ x = [2;3;0;0]
+
+[apostila]
+A = [1 -1 1 0; 2 -1 0 1]
+c = [-2; -1; 0; 0]
+x = [0;0;10;40]
+
+
+
+#=======================================================================
+#
+#                    REVISAO DO CODIGO?
+#
+#=======================================================================
+Chequei as alteracoes que vc fez no codigo e cheguei nas seguintes conclusoes:
+
+1)Na alteração da função DIRECTION
+- A direção que ele calcula em vn é a prórpria direção que leva o custo ao -Inf 
+  o laço em for que vc fez só devolve o índice da primeira variavel básica, 
+  logo não é a direção....
+
+
+2)  Na alteração na função newB
+- Na função do próprio simplex, ele entra na função newB somente se existir uma direção
+  que reduza finitamente o custo aquele if (j != 0) já cuida disso, portanto nao é 
+  necessario que a função newB receba ind e pense se o custo é infinito ou nao
+
+OBS) - O programa esta funcionando com casos de custo -Inf
+     - Atualmente ele pega o indice de menor custo reduzido
+
+
+#=======================================================================
+#
+#                    REVISAO DO RELATORIO?
+#
+#=======================================================================
+
+1)INTRODUCAO
+
+1.1)"... percorrendo os lados do poliedro que DEFINE a regiao viavel,..."
+- Ali nao deveria ser "definem"?
+
+
+************************************************************************
+2)DESCRIÇAO DO ALGORITMO
+
+2.1)No item 3: "...armazena o indice da variavel cujo custo reduzido foi menor..."
+Antes nao era assim, mas o programa foi alterado e acontece isso mesmo.
+
+
+************************************************************************
+3)FUNCIONAMENTO DO ALGORITMO
+
+3.1)"... problema de programacao linear dado POSSUE pelo menos..."
+- Ali nao era "possui"?
+
+3.2) O CODIGO FOI MODIFICADO E TEM OUTRO OUTPUT!!!
+- Por favor atualizar os novos outputs
+
+3.3) Exemplos?
+- Nao acho muito bom usar o mesmo exemplo pra solucao otima já dada e 
+  outro pra buscar a sol otima trocando a funcao custo. Se tiver tempo 
+  use diferentes exemplos postados ali em cima
+
+A = [1 2 3 0 1 0 0 0 ;-1 2 6 0 0 1 0 0; 0 4 9 0 0 0 1 0; 0 0 3 4 0 0 0 1]
+c = [0;0;0;0;1;1;1;1]
+x = [0; 0; 0; 0; 3; 2; 5; 1]
+Esse exemplo e mais emocionante!
+
+
+************************************************************************
+4) RESULTADOS
+
+4.1) Texto tem sentido?
+- Achei que o texto esta meio... estranhamente escrito e nao tem muito sentido.
+
+4.2) Resultados?
+- Os resultados nao sao os proprios testes realizados na secao anterior? 
+  Era necessario essa parte?
+
+
+************************************************************************
+5) CONCLUSAO
+
+
