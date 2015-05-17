@@ -325,7 +325,7 @@ das novas variáveis básicas são $y_j = \theta ^*$, $y_{B(i)} - \theta ^* u_i$
 \chapter{Funcionamento do algoritmo}
 
 A seguir está a descrição do funcionamento do algoritmo quando o problema de
-programação linear dado possue pelo menos uma solução ótima ou quando o custo 
+programação linear dado possui pelo menos uma solução ótima ou quando o custo 
 ótimo é ilimitado.
 
 \section{Solução ótima}
@@ -380,123 +380,183 @@ Solucao otima com custo 0.000000:
 O algoritmo então devolve o valor da solução ótima que é igual a solução viável básica x dada.
 
 
-Ao realizar outro teste, mudando apenas a função de custo, obtemos a resposta a seguir. 
+O problema de programação linear descrito a seguir também possui uma soluçãi viável básica ótima que é encontrada após algumas iterações.
 \begin{verbatim}
-> c = [-3;-5;0;0;0];
+> A = [1 2 3 0 1 0 0 0 ;-1 2 6 0 0 1 0 0; 0 4 9 0 0 0 1 0; 0 0 3 4 0 0 0 1];
+> c = [0;0;0;0;1;1;1;1];
+> x = [0; 0; 0; 0; 3; 2; 5; 1];
+> m = 4;
+> n = 8;
 
 > [ind, v] = simplex(A, b, c, m, n, x);
 #====================================
            Iteracao: 0
 #====================================
 Variaveis basicas:
-3:  4.000000
-4:  6.000000
-5:  18.000000
+5:  3.000000
+6:  2.000000
+7:  5.000000
+8:  1.000000
 
-Valor funcao objetivo: 0.000000
+Valor funcao objetivo: 11.000000
 
 Custos reduzidos:
-1: -3.000000
-2: -5.000000
+1: 0.000000
+2: -8.000000
+3: -21.000000
+4: -4.000000
 \end{verbatim}
 
-O algoritmo calcula quais são as váriáveis básicas da solução viável básica x, o custo associado a ela e os custos reduzidos das variáveis não básicas. Quando encontra um valor negativo sabe-se que existe uma solução viável básica, diferente de x, cujo custo associado é menor.
+O algoritmo calcula quais são as váriáveis básicas da solução viável básica x, o custo associado a ela e os custos reduzidos das variáveis não básicas. Quando encontra um valor negativo sabe-se que existe uma solução viável básica, diferente de x, cujo custo associado é menor. A direção de menor custo associado é escolhida, neste caso, a variável 3.
 
 \begin{verbatim}
-Entra na base: 1
+Entra na base: 3
 
 Direcao
-3: 1.000000
-4: 0.000000
 5: 3.000000
+6: 6.000000
+7: 9.000000
+8: 3.000000
 
-Theta*: 4.000000
+Theta*: 0.333333
 
-Sai da base: 3
+Sai da base: 6
 \end{verbatim}
 
-É calculada a direção viável que reduz o custo, além do $\theta$ máximo que se pode andar para estar sobre uma nova solução viável básica. A primeira variável encontrada que possuir custo reduzido negativo entra na base e uma das variáveis básicas torna-se não básica. Neste caso, aquela que torna o $\theta$ máximo.
-Uma nova iteração se inicia.
+É calculada a direção viável que reduz o custo, além do $\theta$ máximo que se pode andar para estar sobre uma nova solução viável básica. Como nessa direção o valor da função objetivo é menor que $-\infty$ existe uma solução viável básica associada. A variável encontrada que possuir menor custo reduzido entra na base e apenas uma das variáveis básicas torna-se zero, pois as soluções são todas não degeneradas. Neste caso, aquela que torna o $\theta$ máximo, a variável 6.
+Uma nova iteração se inicia com a solução viável básica associada a nova base.
 
 \begin{verbatim}
 #====================================
            Iteracao: 1
 #====================================
 Variaveis basicas:
-1:  4.000000
-4:  6.000000
-5:  6.000000
+5:  2.000000
+3:  0.333333
+7:  2.000000
+8:  0.000000
 
-Valor funcao objetivo: -12.000000
+Valor funcao objetivo: 4.000000
 
 Custos reduzidos:
-3: 3.000000
-2: -5.000000
+1: -3.500000
+2: -1.000000
+6: 3.500000
+4: -4.000000
 
-Entra na base: 2
+Entra na base: 4
 
 Direcao
-1: 0.000000
-4: 1.000000
-5: 2.000000
+5: 0.000000
+3: 0.000000
+7: 0.000000
+8: 4.000000
 
-Theta*: 3.000000
+Theta*: 0.000000
 
-Sai da base: 5
+Sai da base: 8
 \end{verbatim}
 
-Nesta iteração novamente se calcula as variáveis básicas, agora da solução viável básica encontrada na iteração anterior, e seu custo associado. Ao calcular o vetor de custos reduzidos encontra uma componente negativa. Outra vez, sabe-se que a solução em que está não é ótima. Calcula a direção viável que reduz o custo associado, colocando na base a variável que possui custo reduzido negativo, e saindo a que torna o $\theta$ máximo. Outra iteração se inicia.
+Esta iteração realiza os mesmos passos da iteração anterior, encontrando a direção de menor custo reduzido, colocando na base a variável 4. O $\theta$ máximo que se pode andar para estar sobre uma nova solução viável básica é menor que $-\infty$ e a variável 8 sai da base.
+Uma nova iteração se inicia com a solução viável básica associada a nova base.
 
 \begin{verbatim}
 #====================================
            Iteracao: 2
 #====================================
 Variaveis basicas:
-1:  4.000000
-4:  3.000000
-2:  3.000000
+5:  2.000000
+3:  0.333333
+7:  2.000000
+4:  0.000000
 
-Valor funcao objetivo: -27.000000
+Valor funcao objetivo: 4.000000
+
 Custos reduzidos:
-3: -4.500000
-5: 2.500000
+1: -3.000000
+2: -2.000000
+6: 3.000000
+8: 1.000000
 
-Entra na base: 3
+Entra na base: 1
 
 Direcao
-1: 1.000000
-4: 1.500000
-2: -1.500000
+5: 1.500000
+3: -0.166667
+7: 1.500000
+4: 0.125000
 
-Theta*: 2.000000
+Theta*: 0.000000
 
 Sai da base: 4
 \end{verbatim}
 
-Idêntica a iteração anterior. Novamente sabe-se que há uma solução melhor que a dada no início da iteração pois o vetor de custos reduzidos não é positivo. Segue os mesmos passos já descritos e encontra-se uma nova solução viável básica com custo associado menor. Mais uma iteração se inicia.
+Idêntica a iteração anterior, encontrando a direção de menor custo reduzido, colocando na base a variável 1. O $\theta$ máximo que se pode andar para estar sobre uma nova solução viável básica é menor que $-\infty$ e a variável 4 sai da base.
+Uma nova iteração se inicia com a solução viável básica associada a nova base.
 
 \begin{verbatim}
 #====================================
            Iteracao: 3
 #====================================
 Variaveis basicas:
-1:  2.000000
-3:  2.000000
-2:  6.000000
+5:  2.000000
+3:  0.333333
+7:  2.000000
+1:  0.000000
 
-Valor funcao objetivo: -36.000000
+Valor funcao objetivo: 4.000000
 
 Custos reduzidos:
-4: 3.000000
-5: 1.000000
+4: 24.000000
+2: -8.000000
+6: 0.000000
+8: 7.000000
 
-Solucao otima com custo -36.000000:
-1  2.000000
-2  6.000000
-3  2.000000
+Entra na base: 2
+
+Direcao
+5: 4.000000
+3: 0.000000
+7: 4.000000
+1: -2.000000
+
+Theta*: 0.500000
+
+Sai da base: 5
+\end{verbatim}
+
+Esta iteração realiza os mesmos passos da iteração anterior, encontrando a direção de menor custo reduzido, colocando na base a variável 2. O $\theta$ máximo que se pode andar para estar sobre uma nova solução viável básica é menor que $-\infty$ e a variável 5 sai da base.
+Uma nova iteração se inicia com a solução viável básica associada a nova base.
+
+\begin{verbatim}
+#====================================
+           Iteracao: 4
+#====================================
+Variaveis basicas:
+2:  0.500000
+3:  0.333333
+7:  0.000000
+1:  1.000000
+
+Valor funcao objetivo: 0.000000
+
+Custos reduzidos:
+4: 0.000000
+5: 2.000000
+6: 2.000000
+8: 1.000000
+
+Solucao otima com custo 0.000000:
+1  1.000000
+2  0.500000
+3  0.333333
 4  0.000000
 5  0.000000
+6  0.000000
+7  0.000000
+8  0.000000
 \end{verbatim}
+
 Esta possui o vetor de custos reduzidos positivo. Logo não existe direção viável que reduza o custo. O algoritmo devolve a solução viável básica em que está como solução ótima, pois esta possui menor custo associado.  
   
   
@@ -563,11 +623,11 @@ O algoritmo devolve então a direção viável que possui solução ilimitada.
 % ----------------------------------------------------------
 % Parte de revisãod e literatura
 % ----------------------------------------------------------
-\chapter{Resultados}
-
-O desenvolvimento do algoritmo em linguagem Octave baseado no método simplex descrito em \citeonline{bertsimas1997introduction}.
-
-Além da análise do funcionamento do algoritmo, conforme descrito na seção anterior, que demonstrou a corretude do mesmo, desde que fossem garantidas as hipóteses sobre os parâmetros de inicialização.
+%\chapter{Resultados}
+%
+%O desenvolvimento do algoritmo em linguagem Octave baseado no método simplex descrito em \citeonline{bertsimas1997introduction}.
+%
+%Além da análise do funcionamento do algoritmo, conforme descrito na seção anterior, que demonstrou a corretude do mesmo, desde que fossem garantidas as hipóteses sobre os parâmetros de inicialização.
 
 % ---
 % Capitulo de revisão de literatura

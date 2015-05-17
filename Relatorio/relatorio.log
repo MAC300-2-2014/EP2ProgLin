@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2015.4.25)  16 MAY 2015 17:32
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2015.4.25)  17 MAY 2015 16:31
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1236,49 +1236,47 @@ Package microtype Info: Loading generic settings for font family
 (microtype)             See the microtype manual for details.
  [4
 
-] [5] [6] [7] [8] [9] [10
-
 ]
-(./relatorio.bbl (./relatorio.brf)
+Overfull \hbox (12.43372pt too wide) in paragraph at lines 385--385
+[]\T1/lmtt/m/n/12 > A = [1 2 3 0 1 0 0 0 ;-1 2 6 0 0 1 0 0; 0 4 9 0 0 0 1 0; 0 
+0 3 4 0 0 0 1];[] 
+ []
+
+[5] [6] [7] [8] [9] [10] [11] (./relatorio.bbl (./relatorio.brf)
 \tf@brf=\write5
 \openout5 = `relatorio.brf'.
 
- [11
+ [12
 
 ]
 bibitemlist
-) [12
+) [13
 
 ]
 \tf@toc=\write6
 \openout6 = `relatorio.toc'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 706.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 706.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 766.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 766.
  (./relatorio.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 706.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 706.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 766.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 766.
+Package rerunfilecheck Info: File `relatorio.brf' has not changed.
+(rerunfilecheck)             Checksum: 0200BF8A1DB6F2FDB8672C56C2326FD0;57.
 
-
-Package rerunfilecheck Warning: File `relatorio.brf' has changed.
-(rerunfilecheck)                Rerun to get bibliographical references right.
-
-Package rerunfilecheck Info: Checksums for `relatorio.brf':
-(rerunfilecheck)             Before: 71116E8697A34DB0FA8D807F566605C8;114
-(rerunfilecheck)             After:  067FDBC35D6DD622A675BFFE375812AC;115.
 
 LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 706.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 766.
  ) 
 Here is how much of TeX's memory you used:
- 16841 strings out of 493105
- 247972 string characters out of 6137072
- 524876 words of memory out of 5000000
- 19984 multiletter control sequences out of 15000+600000
- 50093 words of font info for 73 fonts, out of 8000000 for 9000
+ 16836 strings out of 493105
+ 247910 string characters out of 6137072
+ 525876 words of memory out of 5000000
+ 19981 multiletter control sequences out of 15000+600000
+ 50002 words of font info for 72 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 39i,10n,36p,508b,528s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 39i,10n,36p,527b,528s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf/fonts/enc/dvips/lm/lm-ec.enc}{/usr/share/texmf/fonts/enc/dv
 ips/lm/lm-rm.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/share
 /texmf/fonts/enc/dvips/lm/lm-mathsy.enc}</usr/share/texmf/fonts/type1/public/lm
@@ -1290,10 +1288,10 @@ pe1/public/lm/lmr8.pfb></usr/share/texmf/fonts/type1/public/lm/lmri12.pfb></usr
 lic/lm/lmss17.pfb></usr/share/texmf/fonts/type1/public/lm/lmssbx10.pfb></usr/sh
 are/texmf/fonts/type1/public/lm/lmsy10.pfb></usr/share/texmf/fonts/type1/public
 /lm/lmsy8.pfb></usr/share/texmf/fonts/type1/public/lm/lmtt12.pfb>
-Output written on relatorio.pdf (13 pages, 192504 bytes).
+Output written on relatorio.pdf (14 pages, 193200 bytes).
 PDF statistics:
- 182 PDF objects out of 1000 (max. 8388607)
- 152 compressed objects within 2 object streams
+ 178 PDF objects out of 1000 (max. 8388607)
+ 147 compressed objects within 2 object streams
  26 named destinations out of 1000 (max. 500000)
- 16457 words of extra memory for PDF output out of 17280 (max. 10000000)
+ 16449 words of extra memory for PDF output out of 17280 (max. 10000000)
 
