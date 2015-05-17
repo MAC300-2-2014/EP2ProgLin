@@ -328,6 +328,8 @@ A seguir está a descrição do funcionamento do algoritmo quando o problema de
 programação linear dado possui pelo menos uma solução ótima ou quando o custo 
 ótimo é ilimitado.
 
+Em alguns exemplos não são dados os vetores b, uma vez que dada a solução viável básica x e não é necessário calcular a partir de b.
+
 \section{Solução ótima}
 
 Existem duas possibilidades para este caso: 
@@ -380,7 +382,7 @@ Solucao otima com custo 0.000000:
 O algoritmo então devolve o valor da solução ótima que é igual a solução viável básica x dada.
 
 
-O problema de programação linear descrito a seguir também possui uma soluçãi viável básica ótima que é encontrada após algumas iterações.
+O problema de programação linear descrito a seguir também possui uma solução viável básica ótima que é encontrada após algumas iterações.
 \begin{verbatim}
 > A = [1 2 3 0 1 0 0 0 ;-1 2 6 0 0 1 0 0; 0 4 9 0 0 0 1 0; 0 0 3 4 0 0 0 1];
 > c = [0;0;0;0;1;1;1;1];
@@ -491,7 +493,7 @@ Theta*: 0.000000
 Sai da base: 4
 \end{verbatim}
 
-Idêntica a iteração anterior, encontrando a direção de menor custo reduzido, colocando na base a variável 1. O $\theta$ máximo que se pode andar para estar sobre uma nova solução viável básica é menor que $-\infty$ e a variável 4 sai da base.
+Idêntica a iteração anterior, encontra a direção de menor custo reduzido, colocando na base a variável 1. O $\theta$ máximo que se pode andar para estar sobre uma nova solução viável básica é menor que $-\infty$ e a variável 4 sai da base.
 Uma nova iteração se inicia com a solução viável básica associada a nova base.
 
 \begin{verbatim}
@@ -564,12 +566,11 @@ Esta possui o vetor de custos reduzidos positivo. Logo não existe direção vi�
 Como exemplo do funcionamento do algoritmo para um problema de programação linear que contém solução ilimitada segue os dados de entrada.
 
 \begin{verbatim}
-> A = [1,-1,-1,0;-1/2, 1, 0, 1],
-> b = [-1;2]
-> c = [-1; -1/4;0;0]
-> m = 2
-> n = 4
-> x = [2; 3; 0; 0]
+> A = [1 -1 1 0; 2 -1 0 1];
+> c = [-2; -1; 0; 0];
+> m = 2;
+> n = 4;
+> x = [0;0;10;40];
 \end{verbatim}
 
 A execução do algoritmo devolve as iterações a seguir. 
@@ -580,40 +581,83 @@ A execução do algoritmo devolve as iterações a seguir.
            Iteracao: 0
 #====================================
 Variaveis basicas:
-1:  2.000000
-2:  3.000000
+3:  10.000000
+4:  40.000000
 
-Valor funcao objetivo: -2.750000
+Valor funcao objetivo: 0.000000
 
 Custos reduzidos:
-3: -2.250000
-4: 2.500000
+1: -2.000000
+2: -1.000000
+
+Entra na base: 1
+
+Direcao
+3: 1.000000
+4: 2.000000
+
+Theta*: 10.000000
+
+Sai da base: 3
 \end{verbatim}
 
-Ao andar na direção da variável básica cujo custo reduzido é menor que zero encontra-se o vetor u com elementos não positivos, isso quer dizer que a direção encontrada leva a solução ilimitada, com custo ótimo $-\infty$.
+Esta iteração encontra a direção de menor custo reduzido, neste caso, colocando na base a variável 1. O $\theta$ máximo que se pode andar para estar sobre uma nova solução viável básica é menor que $-\infty$ e a variável 3 sai da base.
+Uma nova iteração se inicia com a solução viável básica associada a nova base.
+
+\begin{verbatim}
+#====================================
+           Iteracao: 1
+#====================================
+Variaveis basicas:
+1:  10.000000
+4:  20.000000
+
+Valor funcao objetivo: -20.000000
+
+Custos reduzidos:
+3: 2.000000
+2: -3.000000
+
+Entra na base: 2
+
+Direcao
+1: -1.000000
+4: 1.000000
+
+Theta*: 20.000000
+
+Sai da base: 4
+\end{verbatim}
+
+Assim como a iteração anterior, encontra a direção de menor custo reduzido, colocando na base a variável 2. O $\theta$ máximo que se pode andar para estar sobre uma nova solução viável básica é menor que $-\infty$ e a variável 4 sai da base.
+Uma nova iteração se inicia com a solução viável básica associada a nova base.
+
+\begin{verbatim}
+#====================================
+           Iteracao: 2
+#====================================
+Variaveis basicas:
+1:  30.000000
+2:  20.000000
+
+Valor funcao objetivo: -80.000000
+
+Custos reduzidos:
+3: -4.000000
+4: 3.000000
+\end{verbatim}
+
+Ao andar na direção da variável básica $j$ cujo custo reduzido é o menor negativo encontra-se o vetor $u = B^{-1}A_j$ com elementos não positivos, isso quer dizer que a direção encontrada leva a solução ilimitada, com custo ótimo $-\infty$.
 
 \begin{verbatim}
 O valor da funcao objetivo vai para -Inf
 
-Entra na base: 3
-
 Direcao
-1: -2.000000
-2: 0.000000
-
-Theta*: Inf
-
-Sai da base: 0
-
-A direcao que leva o custo a -Inf:
-
-Direcao
-1: -2.000000
-2: 0.000000
+1: -1.000000
+2: -2.000000
 0: 0.000000
 0: 0.000000
 \end{verbatim}
-
 O algoritmo devolve então a direção viável que possui solução ilimitada.
 
  
