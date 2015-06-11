@@ -88,7 +88,7 @@
 % ---
 % Informações de dados para CAPA e FOLHA DE ROSTO
 % ---
-\titulo{Método Simplex \\ Fase 2}
+\titulo{Método Simplex \\ Fase I e II}
 \autor{Florence Alyssa Sakuma Shibata \and Shayenne da Luz Moura}
 \local{São Paulo}
 \data{2015}
@@ -301,7 +301,22 @@ O método simplex é baseado em encontrar uma solução viável ótima para um p
 % Capitulo com exemplos de comandos inseridos de arquivo externo 
 % ----------------------------------------------------------
 \chapter{Descrição do algoritmo}
-O método simplex utilizado como base para o desenvolvimento do algoritmo está descrito em
+\section{Fase I}
+O método simplex fase I utilizado como base para o desenvolvimento do algoritmo está descrito em
+  \citeonline[pág. 116-117]{bertsimas1997introduction}. 
+  
+Dadas uma matriz $A \in \Re ^{m \times n}$, $b \in \Re ^m$, o vetor de custos $c \in\Re ^n$, o algoritmo realiza os seguintes passos:
+
+\begin{itemize}
+\item[1] Multiplica algumas restrições por -1, mudando o problema para que $b \geq 0$.
+\item[2] Introduz variáveis artificiais $y_1, \ldots, y_m$, se necessário, e aplica o método simplex ao problema auxiliar com função de custo $ \Sigma_{i=1}^{m}y_i $.
+\item[3] Se o custo ótimo do problema auxiliar é positivo, o problema original é inviável e o algoritmo termina.
+\item[4] Se o custo ótimo é 0, uma solução viável para o problema original foi encontrada. Se nenhuma variável artificial está na base final, as variáveis artificiais são eliminadas, e uma base viável para o problema foi encontrada.
+\item[5] Se a $l$-ésima variável básica é artificial, examinamos a $l$-ésima entrada das colunas de $B{-1}A_j$, $j = 1, \ldots, n$. Se todas as entradas são zero, a $l$-ésima linha representa uma restrição redundante e é eliminada. Caso contrário, se a $l$-ésima entrada da $j$-ésima coluna é diferente de zero, aplica a mudança de base (com esta entrando e servindo de elemento pivô): a $l$-ésima variável básica sai e $x_j$ entra na base. Repete essa operação até que todas as variáveis artificiais sejam tiradas da base. 
+\end{itemize}
+
+\section{Fase II}
+O método simplex fase II utilizado como base para o desenvolvimento do algoritmo está descrito em
   \citeonline[pág. 90-91]{bertsimas1997introduction}. 
   
   Dadas uma matriz $A \in \Re ^{m \times n}$, uma solução viável básica $x \in \Re ^n$, $b \in \Re ^m$, o vetor de custos $c \in\Re ^n$, o algoritmo realiza os seguintes passos:
@@ -330,7 +345,9 @@ programação linear dado possui pelo menos uma solução ótima ou quando o cus
 
 Em alguns exemplos não são dados os vetores b, uma vez que dada a solução viável básica x e não é necessário calculá-la a partir de b.
 
-\section{Solução ótima}
+\section{Problema inviável}
+
+\section{Problema com solução ótima}
 
 Existem duas possibilidades para este caso: 
 \begin{itemize}
@@ -562,7 +579,7 @@ Solucao otima com custo 0.000000:
 Esta possui o vetor de custos reduzidos positivo. Logo não existe direção viável que reduza o custo. O algoritmo devolve a solução viável básica em que está como solução ótima, pois esta possui menor custo associado.  
   
   
-\section{Custo ótimo ilimitado}
+\section{Problema com custo ótimo ilimitado}
 Como exemplo do funcionamento do algoritmo para um problema de programação linear que contém solução ilimitada segue os dados de entrada.
 
 \begin{verbatim}
