@@ -46,6 +46,7 @@
 function [ind, x, d] = simplex (A, b, c, m, n)  
 
   #INICIO DA FASE 1
+  d = 0;
   phase = 1;
   # Organiza o problema original
   for (i = 1 : m)
@@ -66,7 +67,7 @@ function [ind, x, d] = simplex (A, b, c, m, n)
 
   
   # Verifica a viabilidade
-  if (ind == 0)
+  
       if (newc' * u > 0)
           ind = 1;
           u = 0;
@@ -74,7 +75,7 @@ function [ind, x, d] = simplex (A, b, c, m, n)
           printf("O problema é inviável \n");
           return;
       endif
-  endif
+  
   
   [A, x, m, n] = resize(newA, u, ind, n);
 

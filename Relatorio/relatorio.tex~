@@ -63,7 +63,7 @@
 % ---
 \usepackage[brazilian,hyperpageref]{backref}	 % Paginas com as citações na bibl
 \usepackage[alf]{abntex2cite}	% Citações padrão ABNT
-
+\usepackage{listings}
 % --- 
 % CONFIGURAÇÕES DE PACOTES
 % --- 
@@ -88,7 +88,7 @@
 % ---
 % Informações de dados para CAPA e FOLHA DE ROSTO
 % ---
-\titulo{Método Simplex \\ Fase 2}
+\titulo{Método Simplex \\ Fase I e II}
 \autor{Florence Alyssa Sakuma Shibata \and Shayenne da Luz Moura}
 \local{São Paulo}
 \data{2015}
@@ -242,7 +242,7 @@
 \chapter*[Introdução]{Introdução}
 \addcontentsline{toc}{chapter}{Introdução}
 
-
+O método simplex é baseado em encontrar uma solução viável ótima para um problema de programação linear e realiza esta busca movendo-se de uma solução viável básica para outra, percorrendo os lados do poliedro que define a região viável, sempre numa direção onde o custo se reduz. Enfim, uma solução viável básica é alcançada quando nenhuma das direções viáveis reduzem o custo; então a solução viável básica é ótima e o algoritmo termina. 
 
 
 
@@ -301,7 +301,22 @@
 % Capitulo com exemplos de comandos inseridos de arquivo externo 
 % ----------------------------------------------------------
 \chapter{Descrição do algoritmo}
-O método simplex utilizado como base para o desenvolvimento do algoritmo está descrito em
+\section{Fase I}
+O método simplex fase I utilizado como base para o desenvolvimento do algoritmo está descrito em
+  \citeonline[pág. 116-117]{bertsimas1997introduction}. 
+  
+Dadas uma matriz $A \in \Re ^{m \times n}$, $b \in \Re ^m$, o vetor de custos $c \in\Re ^n$, o algoritmo realiza os seguintes passos:
+
+\begin{itemize}
+\item[1] Multiplica algumas restrições por -1, mudando o problema para que $b \geq 0$.
+\item[2] Introduz variáveis artificiais $y_1, \ldots, y_m$, se necessário, e aplica o método simplex ao problema auxiliar com função de custo $ \Sigma_{i=1}^{m}y_i $.
+\item[3] Se o custo ótimo do problema auxiliar é positivo, o problema original é inviável e o algoritmo termina.
+\item[4] Se o custo ótimo é 0, uma solução viável para o problema original foi encontrada. Se nenhuma variável artificial está na base final, as variáveis artificiais são eliminadas, e uma base viável para o problema foi encontrada.
+\item[5] Se a $l$-ésima variável básica é artificial, examinamos a $l$-ésima entrada das colunas de $B{-1}A_j$, $j = 1, \ldots, n$. Se todas as entradas são zero, a $l$-ésima linha representa uma restrição redundante e é eliminada. Caso contrário, se a $l$-ésima entrada da $j$-ésima coluna é diferente de zero, aplica a mudança de base (com esta entrando e servindo de elemento pivô): a $l$-ésima variável básica sai e $x_j$ entra na base. Repete essa operação até que todas as variáveis artificiais sejam tiradas da base. 
+\end{itemize}
+
+\section{Fase II}
+O método simplex fase II utilizado como base para o desenvolvimento do algoritmo está descrito em
   \citeonline[pág. 90-91]{bertsimas1997introduction}. 
   
   Dadas uma matriz $A \in \Re ^{m \times n}$, uma solução viável básica $x \in \Re ^n$, $b \in \Re ^m$, o vetor de custos $c \in\Re ^n$, o algoritmo realiza os seguintes passos:
@@ -320,27 +335,360 @@ base substituindo $A_{B(l)}$ por $A_j$. Sendo $y$ é a nova solução viável b�
 das novas variáveis básicas são $y_j = \theta ^*$, $y_{B(i)} - \theta ^* u_i$, $i\neq l$. Volta ao passo 1.
 \end{itemize}
 
+É necessário que o problema possua pelo menos uma solução viável básica e que todas as soluções viáveis básicas sejam não degeneradas.
+
 \chapter{Funcionamento do algoritmo}
 
 A seguir está a descrição do funcionamento do algoritmo quando o problema de
-programação linear dado possue pelo menos uma solução ótima ou quando o custo 
+programação linear dado possui pelo menos uma solução ótima ou quando o custo 
 ótimo é ilimitado.
 
-\section{Solução ótima}
+Em alguns exemplos não são dados os vetores b, uma vez que dada a solução viável básica x e não é necessário calculá-la a partir de b.
+
+\section{Problema inviável}
+
+\section{Problema com solução ótima}
+
+Existem duas possibilidades para este caso: 
+\begin{itemize}
+\item A solução ótima é dada;
+\item A solução ótima é encontrada ao percorrer as direções viáveis que reduzem o custo.
+\end{itemize}
 
 
+Ao aplicar o algoritmo com os dados descritos a seguir, pode-se verificar seu funcionamento.
+\begin{verbatim}
+> A = [1 0 1 0 0; 0 1 0 1 0; 3 2 0 0 1];
+> x = [0;0;4;6;18];
+> b = [4;16;18];
+> m = 3;
+> n = 5;
+> c = [3;5;0;0;0];
 
-\section{Custo ótimo ilimitado}
-%
+> [ind, v] = simplex(A, b, c, m, n, x);
+#====================================
+           Iteracao: 0
+#====================================
+
+Variaveis basicas:
+3:  4.000000
+4:  6.000000
+5:  18.000000
+
+Valor funcao objetivo: 0.000000
+\end{verbatim}
+
+O algoritmo calcula quais são as váriáveis básicas a partir da solução x dada e o custo associado a essa solução c$^T$x.
+
+\begin{verbatim}
+Custos reduzidos:
+1: 3.000000
+2: 5.000000
+\end{verbatim}
+
+Como o vetor de custos reduzidos das variáveis não básicas é positivo não existe direção viável que reduza o custo. Logo, o custo ótimo é alcançado em x. Assim, x é solução ótima.
+
+\begin{verbatim}
+Solucao otima com custo 0.000000:
+1  0.000000
+2  0.000000
+3  4.000000
+4  6.000000
+5  18.000000
+\end{verbatim}
+O algoritmo então devolve o valor da solução ótima que é igual a solução viável básica x dada.
+
+
+O problema de programação linear descrito a seguir também possui uma solução viável básica ótima que é encontrada após algumas iterações.
+\begin{verbatim}
+> A = [1 2 3 0 1 0 0 0 ;-1 2 6 0 0 1 0 0; 0 4 9 0 0 0 1 0; 0 0 3 4 0 0 0 1];
+> c = [0;0;0;0;1;1;1;1];
+> x = [0; 0; 0; 0; 3; 2; 5; 1];
+> m = 4;
+> n = 8;
+
+> [ind, v] = simplex(A, b, c, m, n, x);
+#====================================
+           Iteracao: 0
+#====================================
+Variaveis basicas:
+5:  3.000000
+6:  2.000000
+7:  5.000000
+8:  1.000000
+
+Valor funcao objetivo: 11.000000
+
+Custos reduzidos:
+1: 0.000000
+2: -8.000000
+3: -21.000000
+4: -4.000000
+\end{verbatim}
+
+O algoritmo calcula quais são as váriáveis básicas da solução viável básica x, o custo associado a ela e os custos reduzidos das variáveis não básicas. Quando encontra um valor negativo sabe-se que existe uma solução viável básica, diferente de x, cujo custo associado é menor. A direção de menor custo associado é escolhida, neste caso, a variável 3.
+
+\begin{verbatim}
+Entra na base: 3
+
+Direcao
+5: 3.000000
+6: 6.000000
+7: 9.000000
+8: 3.000000
+
+Theta*: 0.333333
+
+Sai da base: 6
+\end{verbatim}
+
+É calculada a direção viável que reduz o custo, além do $\theta$ máximo que se pode andar para estar sobre uma nova solução viável básica. Como nessa direção o valor da função objetivo é menor que $-\infty$ existe uma solução viável básica associada. A variável encontrada que possuir menor custo reduzido entra na base e apenas uma das variáveis básicas torna-se zero, pois as soluções são todas não degeneradas. Neste caso, aquela que torna o $\theta$ máximo, a variável 6.
+Uma nova iteração se inicia com a solução viável básica associada a nova base.
+
+\begin{verbatim}
+#====================================
+           Iteracao: 1
+#====================================
+Variaveis basicas:
+5:  2.000000
+3:  0.333333
+7:  2.000000
+8:  0.000000
+
+Valor funcao objetivo: 4.000000
+
+Custos reduzidos:
+1: -3.500000
+2: -1.000000
+6: 3.500000
+4: -4.000000
+
+Entra na base: 4
+
+Direcao
+5: 0.000000
+3: 0.000000
+7: 0.000000
+8: 4.000000
+
+Theta*: 0.000000
+
+Sai da base: 8
+\end{verbatim}
+
+Esta iteração realiza os mesmos passos da iteração anterior, encontrando a direção de menor custo reduzido, colocando na base a variável 4. O $\theta$ máximo que se pode andar para estar sobre uma nova solução viável básica é menor que $-\infty$ e a variável 8 sai da base.
+Uma nova iteração se inicia com a solução viável básica associada a nova base.
+
+\begin{verbatim}
+#====================================
+           Iteracao: 2
+#====================================
+Variaveis basicas:
+5:  2.000000
+3:  0.333333
+7:  2.000000
+4:  0.000000
+
+Valor funcao objetivo: 4.000000
+
+Custos reduzidos:
+1: -3.000000
+2: -2.000000
+6: 3.000000
+8: 1.000000
+
+Entra na base: 1
+
+Direcao
+5: 1.500000
+3: -0.166667
+7: 1.500000
+4: 0.125000
+
+Theta*: 0.000000
+
+Sai da base: 4
+\end{verbatim}
+
+Idêntica a iteração anterior, encontra a direção de menor custo reduzido, colocando na base a variável 1. O $\theta$ máximo que se pode andar para estar sobre uma nova solução viável básica é menor que $-\infty$ e a variável 4 sai da base.
+Uma nova iteração se inicia com a solução viável básica associada a nova base.
+
+\begin{verbatim}
+#====================================
+           Iteracao: 3
+#====================================
+Variaveis basicas:
+5:  2.000000
+3:  0.333333
+7:  2.000000
+1:  0.000000
+
+Valor funcao objetivo: 4.000000
+
+Custos reduzidos:
+4: 24.000000
+2: -8.000000
+6: 0.000000
+8: 7.000000
+
+Entra na base: 2
+
+Direcao
+5: 4.000000
+3: 0.000000
+7: 4.000000
+1: -2.000000
+
+Theta*: 0.500000
+
+Sai da base: 5
+\end{verbatim}
+
+Esta iteração realiza os mesmos passos da iteração anterior, encontrando a direção de menor custo reduzido, colocando na base a variável 2. O $\theta$ máximo que se pode andar para estar sobre uma nova solução viável básica é menor que $-\infty$ e a variável 5 sai da base.
+Uma nova iteração se inicia com a solução viável básica associada a nova base.
+
+\begin{verbatim}
+#====================================
+           Iteracao: 4
+#====================================
+Variaveis basicas:
+2:  0.500000
+3:  0.333333
+7:  0.000000
+1:  1.000000
+
+Valor funcao objetivo: 0.000000
+
+Custos reduzidos:
+4: 0.000000
+5: 2.000000
+6: 2.000000
+8: 1.000000
+
+Solucao otima com custo 0.000000:
+1  1.000000
+2  0.500000
+3  0.333333
+4  0.000000
+5  0.000000
+6  0.000000
+7  0.000000
+8  0.000000
+\end{verbatim}
+
+Esta possui o vetor de custos reduzidos positivo. Logo não existe direção viável que reduza o custo. O algoritmo devolve a solução viável básica em que está como solução ótima, pois esta possui menor custo associado.  
+  
+  
+\section{Problema com custo ótimo ilimitado}
+Como exemplo do funcionamento do algoritmo para um problema de programação linear que contém solução ilimitada segue os dados de entrada.
+
+\begin{verbatim}
+> A = [1 -1 1 0; 2 -1 0 1];
+> c = [-2; -1; 0; 0];
+> m = 2;
+> n = 4;
+> x = [0;0;10;40];
+\end{verbatim}
+
+A execução do algoritmo devolve as iterações a seguir. 
+
+\begin{verbatim}
+> [ind, v ]= simplex(A, b, c, m, n, x);
+#====================================
+           Iteracao: 0
+#====================================
+Variaveis basicas:
+3:  10.000000
+4:  40.000000
+
+Valor funcao objetivo: 0.000000
+
+Custos reduzidos:
+1: -2.000000
+2: -1.000000
+
+Entra na base: 1
+
+Direcao
+3: 1.000000
+4: 2.000000
+
+Theta*: 10.000000
+
+Sai da base: 3
+\end{verbatim}
+
+Esta iteração encontra a direção de menor custo reduzido, neste caso, colocando na base a variável 1. O $\theta$ máximo que se pode andar para estar sobre uma nova solução viável básica é menor que $-\infty$ e a variável 3 sai da base.
+Uma nova iteração se inicia com a solução viável básica associada a nova base.
+
+\begin{verbatim}
+#====================================
+           Iteracao: 1
+#====================================
+Variaveis basicas:
+1:  10.000000
+4:  20.000000
+
+Valor funcao objetivo: -20.000000
+
+Custos reduzidos:
+3: 2.000000
+2: -3.000000
+
+Entra na base: 2
+
+Direcao
+1: -1.000000
+4: 1.000000
+
+Theta*: 20.000000
+
+Sai da base: 4
+\end{verbatim}
+
+Assim como a iteração anterior, encontra a direção de menor custo reduzido, colocando na base a variável 2. O $\theta$ máximo que se pode andar para estar sobre uma nova solução viável básica é menor que $-\infty$ e a variável 4 sai da base.
+Uma nova iteração se inicia com a solução viável básica associada a nova base.
+
+\begin{verbatim}
+#====================================
+           Iteracao: 2
+#====================================
+Variaveis basicas:
+1:  30.000000
+2:  20.000000
+
+Valor funcao objetivo: -80.000000
+
+Custos reduzidos:
+3: -4.000000
+4: 3.000000
+\end{verbatim}
+
+Ao andar na direção da variável básica $j$ cujo custo reduzido é o menor negativo encontra-se o vetor $u = B^{-1}A_j$ com elementos não positivos, isso quer dizer que a direção encontrada leva a solução ilimitada, com custo ótimo $-\infty$.
+
+\begin{verbatim}
+O valor da funcao objetivo vai para -Inf
+
+Direcao
+1: -1.000000
+2: -2.000000
+0: 0.000000
+0: 0.000000
+\end{verbatim}
+O algoritmo devolve então a direção viável que possui solução ilimitada.
+
+ 
 %\chapter{Testes}
 %
 %\include{testes}
 % ----------------------------------------------------------
 % Parte de revisãod e literatura
 % ----------------------------------------------------------
-\chapter{Resultados}
-
-
+%\chapter{Resultados}
+%
+%O desenvolvimento do algoritmo em linguagem Octave baseado no método simplex descrito em \citeonline{bertsimas1997introduction}.
+%
+%Além da análise do funcionamento do algoritmo, conforme descrito na seção anterior, que demonstrou a corretude do mesmo, desde que fossem garantidas as hipóteses sobre os parâmetros de inicialização.
 
 % ---
 % Capitulo de revisão de literatura
@@ -362,8 +710,8 @@ O algoritmo simplex implementado para resolver problemas de programação linear
 soluções viáveis básicas não degeneradas e com pelo menos uma ótima é correto.
 
 Mantendo as hipóteses em todos os casos, obtêm-se os resultados esperados em problemas cuja 
-solução ótima é dada, quando o custo ótimo é ilimitado, ou é necessário encontrar uma 
-direção viável cujo custo seja ótimo.
+solução ótima é dada, quando o custo ótimo é ilimitado, ou seja necessário encontrar uma 
+direção viável cujo custo seja menor, encontrando a solução ótima.
 %
 %O algoritmo desenvolvido apresentou desempenho conforme o esperado
 %ao lidar com matrizes de posto completo, para as quais foram 
@@ -443,12 +791,20 @@ direção viável cujo custo seja ótimo.
 % Inicia os anexos
 % ---
 %\begin{anexosenv}
-%
+%%
 %% Imprime uma página indicando o início dos anexos
 %\partanexos
 %
-%% ---
-%\chapter{Morbi ultrices rutrum lorem.}
+%%% ---
+%\chapter{Código do algoritmo}
+%
+%\lstset{language=Octave,
+%             basicstyle=\footnotesize,
+%             numbers=left}
+%\begin{lstlisting}
+%SQUARE(REFERENCE,LENGTH,POT_INT,ATTRIB)
+%\end{lstlisting}
+
 %% ---
 %\lipsum[30]
 %
@@ -464,8 +820,8 @@ direção viável cujo custo seja ótimo.
 %% ---
 %
 %\lipsum[32]
-%
-%\end{anexosenv}
 %%
+%\end{anexosenv}
+%%%
 
 \end{document}
