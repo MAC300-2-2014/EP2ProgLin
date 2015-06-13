@@ -57,11 +57,7 @@ function [ind, x, d] = uniphase_simplex (A, b, c, m, n)
     x = 0;
     d = u;
   endif
-
-  
 endfunction
-  
-  
   
 
 #=======================================================================
