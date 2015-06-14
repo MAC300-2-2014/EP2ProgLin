@@ -342,9 +342,12 @@ das novas variáveis básicas são $y_j = \theta ^*$, $y_{B(i)} - \theta ^* u_i$
 
 A seguir está a descrição do funcionamento do algoritmo quando o problema de
 programação linear dado é inviável, possui pelo menos uma solução ótima e quando o custo 
-ótimo é ilimitado.
+ótimo é ilimitado. Também é apresentado um exemplo de problema no qual o algoritmo falha por tentar o cálculo da fase 2 com uma solução viável básica degenerada, encontrada pela fase 1.
 
 \section{Problema inviável}
+O objetivo da fase 1 é decidir se existe ou não solução viável, e se existir, devolve a mesma para a fase 2.
+
+O problema a seguir não possui região viável. Ao calcular o problema auxiliar, o algoritmo encontra uma solução ótima maior que zero. Assim, temos que o problema de programação linear original é inviável.
 
 \begin{verbatim}
 [ind, x, d] = simplex(A, b, c, m, n)
@@ -565,6 +568,7 @@ x =
 
 d = 0
 \end{verbatim}
+A solução devolvida em x é a solução ótima para o problema original.
 %--------------------------------------------------------------------------------------------
 %Ao aplicar o algoritmo com os dados descritos a seguir, pode-se verificar seu funcionamento.
 %\begin{verbatim}
@@ -891,7 +895,7 @@ d =
    0
    0
 \end{verbatim}
-
+Em d, é devolvida a direção viável para a qual o custo é ilimitado.
 %-----------------------------------------------------------------------------------------
 %
 %\begin{verbatim}
@@ -976,8 +980,8 @@ d =
 %2: -2.000000
 %0: 0.000000
 %0: 0.000000
-%\end{verbatim}
-O algoritmo devolve então a direção viável que possui solução ilimitada.
+%%\end{verbatim}
+%O algoritmo devolve então a direção viável que possui solução ilimitada.
 
 \section{Solução inicial degenerada}
 Caso a fase 1 encontre uma solução viável básica degenerada, o problema original não pode ser resolvido por meio do simplex, uma vez que é necessário fornecer uma solução viável básica não degenerada para prosseguir o método simplex na fase 2.
