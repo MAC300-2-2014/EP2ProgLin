@@ -1,37 +1,4 @@
 1;
-
-#=======================================================================
-# Phase I test
-
-# A = [1 2 3 0; -1 2 6 0; 0 4 9 0; 0 0 3 1]
-# b = [3;2;5;1]
-# c = [1;1;1;0]
-# m = 4
-# n = 4
-#
-
-# O que acontece se a svb encontrada nao tem variavel nao basica?
-# A = [1 2 2; 2 1 2; 2 2 1]
-# b = [20;20;20]
-# c = [-10;-12;-12]
-# m = 3
-# n = 3
-
-# OK
-# A = [2 1 2; 3 3 1]
-# b = [4;3]
-# c = [4;1;1]
-# m = 2
-# n = 3
-
-# A = [4 1 1 0; 2 3 0 -1; -1 1 0 0]
-# b = [21;13;1]
-# c = [6;-1;0;0]
-# m = 3
-# n = 4
-#=======================================================================
-
-
 #=======================================================================
 # Essa funcao recebe a matriz A, os vetores b e c, o numero de restricoes
 # m, o numero de variaveis do problema n.
@@ -44,16 +11,15 @@
 # seja ilimitado devolve a direcao em d. (Exraida da descricao do EP3).
 #=======================================================================
 function [ind, x, d] = simplex (A, b, c, m, n)  
-
   #INICIO DA FASE 1
-  d = 0;
   phase = 1;
+
   # Organiza o problema original
   for (i = 1 : m)
-      if (b(i) < 0) 
-	A(i,:) = -1 * A(i,:);
-        b(i) = -1 * b(i);
-      endif
+    if (b(i) < 0) 
+      A(i,:) = -1 * A(i,:);
+      b(i) = -1 * b(i);
+    endif
   end
   
   # Acrescenta as váriaveis artificiais
@@ -65,17 +31,13 @@ function [ind, x, d] = simplex (A, b, c, m, n)
   printPhase(phase);
   [ind, u] = subsimplex(newA, b, newc, m, n + m, newx, phase);
 
-  
   # Verifica a viabilidade
-  
-      if (newc' * u > 0)
-          ind = 1;
-          u = 0;
-          x = 0;
-          printf("O problema é inviável \n");
-          return;
-      endif
-  
+  if (newc' * u > 0)
+    ind = 1;
+    u = 0;    x = 0;
+    printf("O problema é inviável \n");
+    return;
+  endif
   
   [A, x, m, n] = resize(newA, u, ind, n);
 
@@ -86,9 +48,7 @@ function [ind, x, d] = simplex (A, b, c, m, n)
   [ind, u] = subsimplex(A, b, c, m, n, x, phase);
 
   [x, d] = solucao(ind, u);
-
 endfunction
-  
   
   
 
@@ -128,7 +88,6 @@ function [ind, v] = subsimplex(A, b, c, m, n, x, phase)
   if (phase == 1)
     [ind, x] = artificialOut(A, B, InvB, b, basic, Nbasic, x, m, n);
   endif
-
 endfunction
 
 
@@ -197,7 +156,6 @@ endfunction
 # basica, onde:  p' = cb' * inv(B)   e   (cj* = cj - p' * Aj)
 #=======================================================================
 function [cost] = custo(A, B, Nbasic, c, cb, m, n, x)
-
   p = zeros(m, 1);
   for (i = 1 : m)
     p(i) = cb' * B(:, i);
@@ -249,6 +207,7 @@ function [ind, v, k] = direction(A, invB, cost, basic, m, n, x)
 endfunction
 
 
+
 #=======================================================================
 # Esta funcao gera a matriz B atualizada e associada com a nova solucao 
 # x e InvB da nova matriz (modo revisado). Atualiza tambem os indices 
@@ -285,7 +244,6 @@ function [B, InvB, basic, Nbasic, x] = newB (A, B, InvB, basic, Nbasic, u, j, x,
 
   D(:, m+1) = [];
   InvB = D;
-
 endfunction
 
 
@@ -337,8 +295,6 @@ function [B, basic, Nbasic] = swap(A, B, basic, Nbasic, sai, entra, m, n)
    index = Nbasic(++k);
   end
   Nbasic(k) = sai;
-
-
 endfunction
 
 
@@ -348,7 +304,6 @@ endfunction
 # funcao de custo.
 #=======================================================================
 function [x] = newX(theta, basic, u, entra, x, m, n)
-
   k = 1; index = basic(k);  
   while (index != 0)
     x(index) -= theta * u(k);
@@ -404,7 +359,6 @@ endfunction
 # basicas a serem eliminadas de A em ind
 #=======================================================================
 function [ind, x] = artificialOut(A, B, InvB, b, basic, Nbasic, x, m, n)
-
   artificial = checkArt(basic, m, n);
 
   if (artificial == 0)                #Nao ha variavel artificial na base
@@ -412,7 +366,6 @@ function [ind, x] = artificialOut(A, B, InvB, b, basic, Nbasic, x, m, n)
     x = x;
     return;
   endif
-
 
   while (artificial != 0) 
     k = 1; id = basic(k);
@@ -431,10 +384,8 @@ function [ind, x] = artificialOut(A, B, InvB, b, basic, Nbasic, x, m, n)
       j++;
     end
 
-
                                 #index entra na base no lugar de artificial
     if (index == 0)             #linha redundante e pode ser eliminado
- 
        B(k, :) = [];
        basic(k) = [];
        A(k, :) = [];				  
@@ -446,8 +397,6 @@ function [ind, x] = artificialOut(A, B, InvB, b, basic, Nbasic, x, m, n)
 
   artificial = checkArt(basic, m, n);
   end
-
-
 endfunction
 
 
@@ -472,7 +421,6 @@ function [artificial] = checkArt(basic, m, n)
   if (artificial == n + m)
     artificial = 0;
   endif
-	
 endfunction
 
 
@@ -483,7 +431,6 @@ endfunction
 # para a segunda fase do simplex
 #=======================================================================
 function [A, x, m, n] = resize(newA, u, ind, n)
-
   A = newA(:, 1);
   x = u(1);  
 
@@ -511,7 +458,6 @@ endfunction
 # direcao para o qual o custo e -Inf 
 #=======================================================================
 function [x, d] = solucao(ind, u);
-
   if(ind == 0) 
     printf("\nSolucao e otima \n");
     x = u;
@@ -522,7 +468,6 @@ function [x, d] = solucao(ind, u);
     x = 0;
     d = u;
   endif
-
 endfunction
 
 
