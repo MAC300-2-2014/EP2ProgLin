@@ -1168,8 +1168,198 @@ error:   subsimplex at line 108, column 15
 error:   simplex at line 85, column 13
 \end{verbatim}
  
-Sendo a solução viável básica fornecida degenerada, não é possível formar a matriz básica B associada a solução, por não ser possível decidir quais variáveis estão na base. Era esperado que o programa devolvesse erro porque o código do simplex foi reaproveitado do EP2 e este supõe que a solução viável básica inicial é não degenerada.
+Sendo a solução viável básica fornecida degenerada, a matriz básica B associada a solução não é quadrada, não sendo possível calcular sua inversa. Era esperado que o programa devolvesse erro porque o código do simplex foi reaproveitado do EP2 e este supõe que a solução viável básica inicial é não degenerada.
  
+\section{Problema com soluções viáveis básicas degeneradas} 
+
+\begin{verbatim}
+> A = [1/4 -8 -1 9 1 0 0 ; 1/2 -12 -1/2 3 0 1 0; 0 0 1 0 0 0 1]
+> b = [1;2;3]
+> c = [0;0;0;0;0;0;1]
+> m = 3
+> n = 7
+\end{verbatim}
+
+\begin{verbatim}
+> [ind, x, d] = simplex(A, b, c, m, n)
+#====================================
+          Simplex Fase 1
+#====================================
+           Iteracao: 0
+#====================================
+Variaveis basicas:
+8:  1.000000
+9:  2.000000
+10:  3.000000
+
+Valor funcao objetivo: 6.000000
+
+Custos reduzidos:
+1: -0.750000
+
+Entra na base: 1
+
+Direcao
+8: 0.250000
+9: 0.500000
+10: 0.000000
+
+Theta*: 4.000000
+
+Sai da base: 8
+
+#====================================
+           Iteracao: 1
+#====================================
+Variaveis basicas:
+1:  4.000000
+9:  0.000000
+10:  3.000000
+
+Valor funcao objetivo: 3.000000
+
+Custos reduzidos:
+8: 3.000000
+2: -4.000000
+
+Entra na base: 2
+
+Direcao
+1: -32.000000
+9: 4.000000
+10: 0.000000
+
+Theta*: 0.000000
+
+Sai da base: 9
+
+#====================================
+           Iteracao: 2
+#====================================
+Variaveis basicas:
+1:  4.000000
+2:  0.000000
+10:  3.000000
+
+Valor funcao objetivo: 3.000000
+
+Custos reduzidos:
+8: 1.000000
+9: 1.000000
+3: -1.000000
+
+Entra na base: 3
+
+Direcao
+1: 8.000000
+2: 0.375000
+10: 1.000000
+
+Theta*: 0.000000
+
+Sai da base: 2
+
+#====================================
+           Iteracao: 3
+#====================================
+Variaveis basicas:
+1:  4.000000
+3:  0.000000
+10:  3.000000
+
+Valor funcao objetivo: 3.000000
+
+Custos reduzidos:
+8: -0.333333
+
+Entra na base: 8
+
+Direcao
+1: -1.333333
+3: -1.333333
+10: 1.333333
+
+Theta*: 2.250000
+
+Sai da base: 10
+
+#====================================
+           Iteracao: 4
+#====================================
+Variaveis basicas:
+1:  7.000000
+3:  3.000000
+8:  2.250000
+
+Valor funcao objetivo: 2.250000
+
+Custos reduzidos:
+10: 0.250000
+9: 1.500000
+2: 2.000000
+4: -7.500000
+
+Entra na base: 4
+
+Direcao
+1: 6.000000
+3: 0.000000
+8: 7.500000
+
+Theta*: 0.300000
+
+Sai da base: 8
+
+#====================================
+           Iteracao: 5
+#====================================
+Variaveis basicas:
+1:  5.200000
+3:  3.000000
+4:  0.300000
+
+Valor funcao objetivo: 0.000000
+
+Custos reduzidos:
+10: 1.000000
+9: 1.000000
+2: 0.000000
+8: 1.000000
+5: 0.000000
+6: 0.000000
+7: 0.000000
+#====================================
+          Simplex Fase 2
+#====================================
+           Iteracao: 0
+#====================================
+Variaveis basicas:
+1:  5.200000
+3:  3.000000
+4:  0.300000
+
+Valor funcao objetivo: 0.000000
+
+Custos reduzidos:
+2: 0.000000
+5: 0.000000
+6: 0.000000
+7: 1.000000
+
+Solucao e otima 
+ind = 0
+x =
+
+   5.20000
+   0.00000
+   3.00000
+   0.30000
+   0.00000
+   0.00000
+   0.00000
+
+d = 0
+\end{verbatim}
 %\chapter{Testes}
 %
 %\include{testes}

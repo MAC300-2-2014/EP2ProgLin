@@ -13,9 +13,10 @@
 \contentsline {section}{\numberline {2.2}Problema com solu\IeC {\c c}\IeC {\~a}o \IeC {\'o}tima}{6}{section.2.2}
 \contentsline {section}{\numberline {2.3}Problema com custo \IeC {\'o}timo ilimitado}{11}{section.2.3}
 \contentsline {section}{\numberline {2.4}Solu\IeC {\c c}\IeC {\~a}o inicial degenerada}{13}{section.2.4}
+\contentsline {section}{\numberline {2.5}Problema com solu\IeC {\c c}\IeC {\~o}es vi\IeC {\'a}veis b\IeC {\'a}sicas degeneradas}{18}{section.2.5}
 \vspace {\cftbeforechapterskip }
 \setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
-\contentsline {chapter}{Conclus\IeC {\~a}o}{19}{chapter*.3}
+\contentsline {chapter}{Conclus\IeC {\~a}o}{24}{chapter*.3}
 \vspace {\cftbeforechapterskip }
 \setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
-\contentsline {chapter}{Refer\^encias}{20}{section*.6}
+\contentsline {chapter}{Refer\^encias}{25}{section*.6}
