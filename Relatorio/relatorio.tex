@@ -242,9 +242,9 @@
 \chapter*[Introdução]{Introdução}
 \addcontentsline{toc}{chapter}{Introdução}
 
-O método simplex é baseado em encontrar uma solução viável ótima para um problema de programação linear, caso seja viável, e realiza esta busca movendo-se de uma solução viável básica para outra, percorrendo os lados do poliedro que define a região viável, sempre numa direção onde o custo se reduz. Quando uma solução viável básica é alcançada e nenhuma das direções viáveis reduzem o custo temos então a solução ótima, e o algoritmo termina. 
+O método simplex é baseado em encontrar uma solução ótima para um problema de programação linear e realiza esta busca movendo-se de uma solução viável básica para outra, percorrendo os lados do poliedro que define a região viável, sempre numa direção onde o custo se reduz. Quando uma solução viável básica é alcançada e nenhuma das direções viáveis reduzem o custo temos então a solução ótima, e o algoritmo termina. 
 
-Para iniciar o método simplex, é necessário encontrar uma solução básica inicial não degenerada. Para isso, são introduzidas variáveis de folga, não negativas, no problema original, criando assim um problema auxiliar no qual se conhece uma solução viável básica inicial. Ao resolvê-lo, é possível decidir se o problema original é viável, e se for, também encontra uma solução viável básica inicial para ele. 
+O método simplex necessita receber uma solução viável básica inicial não degenerada. Para isso, são introduzidas variáveis de folga, não negativas, no problema original, criando assim um problema auxiliar no qual se conhece uma solução viável básica inicial. Ao resolvê-lo, é possível decidir se o problema original é viável, e se for, também encontra uma solução viável básica inicial para ele. 
 
 
 
@@ -310,9 +310,13 @@ Dadas uma matriz $A \in \Re ^{m \times n}$, $b \in \Re ^m$, o vetor de custos $c
 
 \begin{itemize}
 \item[1] Multiplica algumas restrições por -1, mudando o problema para que $b \geq 0$.
+
 \item[2] Introduz variáveis artificiais $y_1, \ldots, y_m$, se necessário, e aplica o método simplex ao problema auxiliar com função de custo $ \Sigma_{i=1}^{m}y_i $.
+
 \item[3] Se o custo ótimo do problema auxiliar é positivo, o problema original é inviável e o algoritmo termina.
+
 \item[4] Se o custo ótimo é 0, uma solução viável para o problema original foi encontrada. Se nenhuma variável artificial está na base final, as variáveis artificiais são eliminadas, e uma base viável para o problema foi encontrada.
+
 \item[5] Se a $l$-ésima variável básica é artificial, examinamos a $l$-ésima entrada das colunas de $B{-1}A_j$, $j = 1, \ldots, n$. Se todas as entradas são zero, a $l$-ésima linha representa uma restrição redundante e é eliminada. Caso contrário, se a $l$-ésima entrada da $j$-ésima coluna é diferente de zero, aplica a mudança de base (com esta entrando e servindo de elemento pivô): a $l$-ésima variável básica sai e $x_j$ entra na base. Repete essa operação até que todas as variáveis artificiais sejam tiradas da base. 
 \end{itemize}
 
@@ -336,13 +340,16 @@ base substituindo $A_{B(l)}$ por $A_j$. Sendo $y$ é a nova solução viável b�
 das novas variáveis básicas são $y_j = \theta ^*$, $y_{B(i)} - \theta ^* u_i$, $i\neq l$. Volta ao passo 1.
 \end{itemize}
 
-É necessário que o problema possua pelo menos uma solução viável básica e que todas as soluções viáveis básicas sejam não degeneradas.
+
 
 \chapter{Funcionamento do algoritmo}
 
 A seguir está a descrição do funcionamento do algoritmo quando o problema de
 programação linear dado é inviável, possui pelo menos uma solução ótima e quando o custo 
-ótimo é ilimitado. Também é apresentado um exemplo de problema no qual o algoritmo falha por tentar o cálculo da fase 2 com uma solução viável básica degenerada, encontrada pela fase 1.
+ótimo é ilimitado. 
+
+Também é apresentado um exemplo de problema no qual o algoritmo falha por tentar o cálculo da fase 2 com uma solução viável básica degenerada, encontrada pela fase 1. Por fim, um problema que mostra o funcionamento do algoritmo ao encontrar soluções degeneradas.
+
 
 \section{Problema inviável}
 O objetivo da fase 1 é decidir se existe ou não solução viável, e se existir, devolve a mesma para a fase 2.
@@ -515,7 +522,6 @@ O algoritmo verifica que o custo ótimo desta solução é igual a zero. Isso qu
 Como ainda sobraram variáveis artificiais na base da solução temos que as restrições associadas a essas váriáveis são redundantes no problema original. Logo, são removidas e assim é possível resolver o problema original com a solução encontrada.
 
 A partir de agora, inicia-se a fase 2.
-
 
 \begin{verbatim}
 #====================================
@@ -1171,7 +1177,9 @@ error:   simplex at line 85, column 13
 Sendo a solução viável básica fornecida degenerada, a matriz básica B associada a solução não é quadrada, não sendo possível calcular sua inversa. Era esperado que o programa devolvesse erro porque o código do simplex foi reaproveitado do EP2 e este supõe que a solução viável básica inicial é não degenerada.
  
 \section{Problema com soluções viáveis básicas degeneradas} 
+Caso o algoritmo encontre soluções viáveis básicas degeneradas ao percorrer as soluções básicas é possível encontrar a solução ótima sem que haja ciclagem.
 
+A seguinte entrada exemplifica esta situação:
 \begin{verbatim}
 > A = [1/4 -8 -1 9 1 0 0 ; 1/2 -12 -1/2 3 0 1 0; 0 0 1 0 0 0 1]
 > b = [1;2;3]
@@ -1179,6 +1187,8 @@ Sendo a solução viável básica fornecida degenerada, a matriz básica B assoc
 > m = 3
 > n = 7
 \end{verbatim}
+
+Sendo o resultado: 
 
 \begin{verbatim}
 > [ind, x, d] = simplex(A, b, c, m, n)
@@ -1207,7 +1217,11 @@ Direcao
 Theta*: 4.000000
 
 Sai da base: 8
+\end{verbatim}
 
+Na iteração 1, encontramos uma solução degenerada.
+
+\begin{verbatim}
 #====================================
            Iteracao: 1
 #====================================
@@ -1232,7 +1246,11 @@ Direcao
 Theta*: 0.000000
 
 Sai da base: 9
+\end{verbatim}
 
+Na iteração 2, continuamos na mesma solução, porém as variáveis básicas são diferentes.
+
+\begin{verbatim}
 #====================================
            Iteracao: 2
 #====================================
@@ -1258,7 +1276,11 @@ Direcao
 Theta*: 0.000000
 
 Sai da base: 2
+\end{verbatim}
 
+Na iteração 3, continuamos na mesma solução, porém as variáveis básicas são diferentes, não tornando a primeira formação da base.
+
+\begin{verbatim}
 #====================================
            Iteracao: 3
 #====================================
@@ -1282,7 +1304,11 @@ Direcao
 Theta*: 2.250000
 
 Sai da base: 10
+\end{verbatim}
 
+Na iteração 4, saimos da solução degenerada.
+
+\begin{verbatim}
 #====================================
            Iteracao: 4
 #====================================
@@ -1360,6 +1386,8 @@ x =
 
 d = 0
 \end{verbatim}
+
+Mesmo tendo passado por soluções básicas degeneradas o algoritmo encontrou a solução ótima sem realizar ciclagem.
 %\chapter{Testes}
 %
 %\include{testes}
@@ -1388,12 +1416,14 @@ d = 0
 % ---
 \chapter*[Conclusão]{Conclusão}
 \addcontentsline{toc}{chapter}{Conclusão}
-O algoritmo simplex implementado para resolver problemas de programação linear com 
-soluções viáveis básicas não degeneradas e com pelo menos uma ótima é correto.
 
-Mantendo as hipóteses em todos os casos, obtêm-se os resultados esperados em problemas cuja 
-solução ótima é dada, quando o custo ótimo é ilimitado, ou seja necessário encontrar uma 
-direção viável cujo custo seja menor, encontrando a solução ótima.
+
+
+O algoritmo simplex duas fases implementado é completo, no sentido de que abrange todas as possibilidades de resultado. Como a ciclagem é evitada, chegamos a um resultado diferente, de acordo com o problema.
+
+Sendo o problema inviável, isto é detectado na fase 1. Sendo o problema viável mas as linhas de A sendo linearmente dependentes, isto é detectado e corrigido no fim da fase 1, pela eliminação de restrições de igualdade redundantes.
+
+Sendo o custo ótimo é $-\infty$, isto é detectado enquanto se está na fase 2. Não se enquadrando em nenhum caso anterior, a fase 2 termina com a solução ótima do problema.
 %
 %O algoritmo desenvolvido apresentou desempenho conforme o esperado
 %ao lidar com matrizes de posto completo, para as quais foram 
