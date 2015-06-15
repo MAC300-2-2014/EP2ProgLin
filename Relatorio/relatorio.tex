@@ -249,55 +249,44 @@ O método simplex necessita receber uma solução viável básica inicial não d
 
 
 
-% ----------------------------------------------------------
-% PARTE - preparação da pesquisa
-% ----------------------------------------------------------
-%\section{Descriįão do método} 
-%%Dar enfase ao fato de que as todas as soluįões viáveis básicas são 
-%%não degeneradas e o problema possui pelo menos uma soluįão básica
-%\section{Desenvolvimento do algoritmo}
-%
-%\section{Resumo do funcionamento}
-%Dadas uma matriz A \in mxn, uma svb x \in n, b \in m, o vetor de custos c \in n.
-%Passos do algoritmo
-%\begin{itemize}
-%\item[1] Gera a matriz básica B associada a x.
-%\item[2] Calcula o vetor de custos reduzidos para toda variável não
-% básica. Se nenhuma componente é negativa, então a svb atual é
-% ótima, acabou. 
-%\item[3]Caso contrário, armazena o índice da variável cujo custo reduzido foi menor.
-%Calcule u = B^(-1)A_j. Se nenhum componente de u é positivo,
-%temos que o custo ótimo é - \infinity, acabou;
-%\item[4]Caso contrário, tomamos \theta * = min{x_(B(i))/u_i}
-%Seja l o indice onde o minimo foi encontrado. Forma uma nova
-%base substituindo A_(B(l)) por A_j. Se y é a nova svb, os valores
-%das novas variáveis básicas são y_j = \theta *, y_B(i) - theta*u_i, i!=l. 
-%\end{itemize}
-%
-%\section{Complexidade do algoritmo}
-%% Mostrar os passos e quanto custa por cada um deles
-%
-%% Utilizou-se a implementaįão de LU calculando o produto
-%% de matrizes triangulares superiores e inferiores pois
-%% o Octave utiliza a inversa da matriz para calcular x = b /A
-%
-%O algoritmo desenvolvido possui características ingęnuas em relaįão a sua 
-%complexidade. Poderia ser mais rápido caso houvesse apenas a atualizaįão do
-%LU em cada iteraįão, ao invés de seu cálculo novamente.
-%O comportamento do algoritmo seria o mesmo, uma vez que este não depende da
-%forma que se calculam os valores.
-%
-%\section{Testes}
-%% Reforįar as hipóteses utilizadas em cada caso.
-%\subsection{Soluįão ótima dada}
-%% Como todas as componentes do vetor de custos reduzidos são não negativas temos
-%% que a soluįão em que nos encontramos é ótima, pela suposiįão de que não existe
-%% svb degenerada
-%\subsection{Custo ótimo ilimitado}
-%
-%\subsection{Soluįão ótima diferente}
-%
-%\section{Resultados}
+\chapter{Descrição do método}
+Sejam $A \in \Re ^{m \times n}$, $b \in \Re ^m$, $c \in \Re ^n$ e $x \in \Re ^n$.
+Seja o problema de programação linear genérico em sua forma padrão denominado P1, onde $b \geq 0$, para o qual não é possível obter uma solução básica inicial trivial:
+
+(P1) 
+\indent minimizar $ c'x $\\ 
+\indent\indent ~~~~~~ sujeito a~~ $ Ax = b $\\
+\indent\indent\indent\indent ~~ $x \geq 0$
+
+
+Então, sempre é possível construir o problema de programação linear abaixo, denominado P2, incluindo variáveis artificiais, $y \in \Re ^m$: 
+
+(P2)
+\indent minimizar $ c'x $\\ 
+\indent\indent ~~~~~~ sujeito a~~ $ Ax + y = b $\\
+\indent\indent\indent\indent ~~ $x \geq 0$\\
+\indent\indent\indent\indent ~~ $y \geq 0$
+
+O problema P2 sempre tem uma solução viável básica trivial:
+\\
+\indent\indent\indent\indent ~~ $y = b$\\
+\indent\indent\indent\indent ~~ $x = 0$
+
+A equivalência entre os problemas P1 e P2 é dada se, e somente se, $y = 0$.
+
+Consideramos o problema de programação linear abaixo, denominado P3:
+
+(P3)
+\indent minimizar $ \sum_{i=1}^m y_i $\\ 
+\indent\indent ~~~~~~ sujeito a~~ $ Ax + y = b $\\
+\indent\indent\indent\indent ~~ $x \geq 0$\\
+\indent\indent\indent\indent ~~ $y \geq 0$
+
+Então, temos que:
+\begin{itemize}
+\item Toda solução de P3 é também solução de P2;
+\item Se a solução ótima de P3 tiver y = 0, então também será solução básica viável para P1.
+\end{itemize}
 % ----------------------------------------------------------
 % Capitulo com exemplos de comandos inseridos de arquivo externo 
 % ----------------------------------------------------------
@@ -340,9 +329,29 @@ base substituindo $A_{B(l)}$ por $A_j$. Sendo $y$ é a nova solução viável b�
 das novas variáveis básicas são $y_j = \theta ^*$, $y_{B(i)} - \theta ^* u_i$, $i\neq l$. Volta ao passo 1.
 \end{itemize}
 
+\chapter{Descrição do programa}
+A função subsimplex começa determinando as variáveis básicas das variáveis não básicas da solução viável básica
+inicial x, colocando os índices nos vetores basic e Nbasic por meio da função indBasico(x, n). Com os índices
+das variáveis básicas, gera-se a matriz básica B e a sua inversa InvB por meio da função matrizB(A,basic, m, n, x).
 
 
-\chapter{Funcionamento do algoritmo}
+A partir deste momento, começa-se a iteração em busca de uma solução viável básica ótima, se existir.
+Calcula-se o custo reduzido atual de cada direção não básica pela função custo(A, InvB, cost, basic, m, n, x) 
+e determina-se o vetor de custo relacionado aos índices básicos cb por findCb(basic, c).
+
+
+Tendo em mãos o vetor de custos reduzidos, a função direction(A, InvB, cost, basic, m, n, x) verifica
+se existe uma direção que diminua finitamente o valor da função objetivo (pela regra do menor índice). 
+Caso essa direção exista, devolve o índice dessa variável em j. Caso essa direção leve a função de custo a -Inf, esta direção é devolvida em v e indica-se em ind = -1 que o algorítmo chegou ao fim.
+
+
+Caso a direção não leve ao custo -Inf, com o índice da direção não básica que diminui o custo, a função
+newB(A, B, InvB, basic, Nbasic, v, j, x, m, n) determina theta* (pela função thetaMax(u, basic, m, x) e
+consequentemente gera a nova solução viável básica x, a matriz B e a sua inversa (segundo o método revisado)
+associada ao novo x e inicia-se novamente a iteração em busca da solução ótima, se existir.
+
+Todas as funções possuem o detalhamento do seu funcionamento no código do algoritmo.
+\chapter{Exemplos}
 
 A seguir está a descrição do funcionamento do algoritmo quando o problema de
 programação linear dado é inviável, possui pelo menos uma solução ótima e quando o custo 
@@ -1388,6 +1397,9 @@ d = 0
 \end{verbatim}
 
 Mesmo tendo passado por soluções básicas degeneradas o algoritmo encontrou a solução ótima sem realizar ciclagem.
+
+
+
 %\chapter{Testes}
 %
 %\include{testes}
