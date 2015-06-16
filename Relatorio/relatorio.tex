@@ -335,20 +335,24 @@ inicial x, colocando os índices nos vetores basic e Nbasic por meio da função
 das variáveis básicas, gera-se a matriz básica B e a sua inversa InvB por meio da função matrizB(A,basic, m, n, x).
 
 
-A partir deste momento, começa-se a iteração em busca de uma solução viável básica ótima, se existir.
+A partir deste momento, inicia-se a iteração em busca de uma solução viável básica ótima, se existir.
 Calcula-se o custo reduzido atual de cada direção não básica pela função custo(A, InvB, cost, basic, m, n, x) 
 e determina-se o vetor de custo relacionado aos índices básicos cb por findCb(basic, c).
 
 
 Tendo em mãos o vetor de custos reduzidos, a função direction(A, InvB, cost, basic, m, n, x) verifica
 se existe uma direção que diminua finitamente o valor da função objetivo (pela regra do menor índice). 
-Caso essa direção exista, devolve o índice dessa variável em j. Caso essa direção leve a função de custo a -Inf, esta direção é devolvida em v e indica-se em ind = -1 que o algorítmo chegou ao fim.
+Caso essa direção exista, devolve o índice dessa variável em j. Caso essa direção leve a função de custo a $-\infty$, esta direção é devolvida em v e indica-se em ind = -1 que o algorítmo chegou ao fim.
 
 
-Caso a direção não leve ao custo -Inf, com o índice da direção não básica que diminui o custo, a função
+Caso a direção não leve ao custo $-\infty$, com o índice da direção não básica que diminui o custo, a função
 newB(A, B, InvB, basic, Nbasic, v, j, x, m, n) determina theta* (pela função thetaMax(u, basic, m, x) e
 consequentemente gera a nova solução viável básica x, a matriz B e a sua inversa (segundo o método revisado)
 associada ao novo x e inicia-se novamente a iteração em busca da solução ótima, se existir.
+
+
+O programa funciona basicamente da mesma maneira em ambas as fases, porém na fase 1 verifica a existência de linhas redundantes e as remove.
+
 
 Todas as funções possuem o detalhamento do seu funcionamento no código do algoritmo.
 \chapter{Exemplos}
@@ -357,7 +361,7 @@ A seguir está a descrição do funcionamento do algoritmo quando o problema de
 programação linear dado é inviável, possui pelo menos uma solução ótima e quando o custo 
 ótimo é ilimitado. 
 
-Também é apresentado um exemplo de problema no qual o algoritmo falha por tentar o cálculo da fase 2 com uma solução viável básica degenerada, encontrada pela fase 1. Por fim, um problema que mostra o funcionamento do algoritmo ao encontrar soluções degeneradas.
+Também é apresentado um exemplo de problema no qual o algoritmo falha por tentar o cálculo da fase 2 com uma solução viável básica degenerada, encontrada pela fase~ 1. Por fim, um problema que mostra o funcionamento do algoritmo ao encontrar soluções degeneradas.
 
 
 \section{Problema inviável}
